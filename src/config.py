@@ -60,7 +60,7 @@ class Settings:
 
     # ── LLM ───────────────────────────────────────────────────────────────────
     google_api_key: str = os.getenv("GOOGLE_API_KEY", "")
-    gemini_model: str = os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
+    gemini_model: str = os.getenv("GEMINI_MODEL", "gemini-2.5-flash-lite")
     gemini_temperature: float = float(os.getenv("GEMINI_TEMPERATURE", "0.0"))
 
     # ── Retry policy for LLM calls ────────────────────────────────────────────
