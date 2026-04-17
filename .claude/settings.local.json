@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd \"\\\\\\\\wsl.localhost\\\\Ubuntu\\\\home\\\\orudskyi\\\\university\\\\diploma\\\\bpmn-text-checker\")",
+      "Bash(pytest tests/ -x --tb=short -q)",
+      "Bash(.venv/Scripts/python.exe -m pytest tests/ --tb=line -q)",
+      "Bash(uv run *)"
+    ]
+  }
+}
