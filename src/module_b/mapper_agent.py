@@ -26,6 +26,7 @@ from pydantic import BaseModel
 
 from src.config import settings
 from src.models import BPMNGraph, Mapping, TextFragment
+from src.rate_limiter import rate_limiter
 
 logger = logging.getLogger(__name__)
 
@@ -216,6 +217,7 @@ async def map_text_to_bpmn(
                 google_api_key=settings.google_api_key,
             )
             chain = _PROMPT | llm.with_structured_output(MappingList)
+            await rate_limiter.wait()
             result: MappingList = await chain.ainvoke(
                 {
                     "nodes_formatted": nodes_fmt,

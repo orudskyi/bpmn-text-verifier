@@ -35,6 +35,7 @@ from src.models import (
     VerificationResult,
     Violation,
 )
+from src.rate_limiter import rate_limiter
 
 logger = logging.getLogger(__name__)
 
@@ -255,6 +256,7 @@ async def explain_violations(
                 google_api_key=settings.google_api_key,
             )
             chain = _PROMPT | llm.with_structured_output(ExplanationList)
+            await rate_limiter.wait()
             response: ExplanationList = await chain.ainvoke(
                 {
                     "process_name": graph.process_name,

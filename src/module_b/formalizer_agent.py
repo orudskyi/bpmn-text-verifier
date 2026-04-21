@@ -41,6 +41,7 @@ from src.models import (
     Mapping,
     TextFragment,
 )
+from src.rate_limiter import rate_limiter
 
 logger = logging.getLogger(__name__)
 
@@ -280,6 +281,7 @@ async def extract_constraints(
                 google_api_key=settings.google_api_key,
             )
             chain = _PROMPT | llm.with_structured_output(ConstraintList)
+            await rate_limiter.wait()
             result: ConstraintList = await chain.ainvoke(
                 {
                     "activity_names_list": activities_fmt,
