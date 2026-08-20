@@ -11,5 +11,5 @@ wheels/
 .env.example
 .venv
 plan/
-data/
-results/
+#data/
+#results/

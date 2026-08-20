@@ -1,0 +1,217 @@
+{
+  "_meta": {
+    "process": "Dispatch of Goods",
+    "bpmn_file": "Dispatch-of-goods.bpmn",
+    "text_file": "DispatchDescription.txt",
+    "created_by": "manual expert annotation",
+    "created_date": "2026-04-21",
+    "version": "v3",
+    "notes": "Ground truth aligned with actual text_loader output (7 fragments). V3 changes: expanded constraint set to include both Response and Precedence where both are semantically valid, added logical consequence constraints."
+  },
+
+  "fragments": [
+    { "id": "frag_01", "text": "If goods shall be shipped, the secretary clarifies who will do the shipping", "sentence_index": 0 },
+    { "id": "frag_02", "text": "If you have large amounts, special shipping will be necessary", "sentence_index": 1 },
+    { "id": "frag_03", "text": "In these cases the secretary invites three logistic companies to make offers and she selects one of them", "sentence_index": 2 },
+    { "id": "frag_04", "text": "In case of small amounts, normal post shipment is used", "sentence_index": 3 },
+    { "id": "frag_05", "text": "a package label is written by the secretary and a parcel insurance taken by the logistics department head if necessary", "sentence_index": 4 },
+    { "id": "frag_06", "text": "In the meantime the goods can be already packaged by the warehousemen", "sentence_index": 5 },
+    { "id": "frag_07", "text": "If everything is ready, the packaged goods are prepared for being picked up by the logistic company", "sentence_index": 6 }
+  ],
+
+  "mappings": [
+    {
+      "fragment_id": "frag_01",
+      "node_id": "Task_0vaxgaa",
+      "node_name": "Clarify shipment method",
+      "node_type": "task",
+      "lane": "Secretary",
+      "confidence": 1.0,
+      "reasoning": "The dominant action in the fragment is 'clarifies who will do the shipping'."
+    },
+    {
+      "fragment_id": "frag_02",
+      "node_id": "ExclusiveGateway_1mpgzhg",
+      "node_name": "Special sandling?",
+      "node_type": "exclusive_gateway",
+      "lane": "Secretary",
+      "confidence": 0.85,
+      "reasoning": "'large amounts -> special shipping' = 'yes' branch of the exclusive gateway."
+    },
+    {
+      "fragment_id": "frag_03",
+      "node_id": "Task_0e6hvnj",
+      "node_id_secondary": "Task_0s79ile",
+      "node_name": "Get 3 offers from logistic companies",
+      "node_name_secondary": "Select logistic company and place order",
+      "node_type": "task",
+      "lane": "Secretary",
+      "confidence": 0.9,
+      "reasoning": "Two actions: 'invites three companies' (primary) and 'selects one' (secondary)."
+    },
+    {
+      "fragment_id": "frag_04",
+      "node_id": "ExclusiveGateway_1mpgzhg",
+      "node_name": "Special sandling?",
+      "node_type": "exclusive_gateway",
+      "lane": "Secretary",
+      "confidence": 0.8,
+      "reasoning": "'small amounts -> normal post' = 'no' branch of the same exclusive gateway."
+    },
+    {
+      "fragment_id": "frag_05",
+      "node_id": "Task_0jsoxba",
+      "node_id_secondary": "Task_12j0pib",
+      "node_name": "Write package label",
+      "node_name_secondary": "Insure parcel",
+      "node_type": "task",
+      "lane": "Secretary",
+      "lane_secondary": "Logistics",
+      "confidence": 0.85,
+      "reasoning": "Two parallel actions: 'label is written' (primary) and 'insurance taken' (secondary)."
+    },
+    {
+      "fragment_id": "frag_06",
+      "node_id": "Task_05ftug5",
+      "node_name": "Package goods",
+      "node_type": "task",
+      "lane": "Warehouse",
+      "confidence": 1.0,
+      "reasoning": "'goods packaged by warehousemen' = 'Package goods'. Exact match."
+    },
+    {
+      "fragment_id": "frag_07",
+      "node_id": "Task_0sl26uo",
+      "node_name": "Prepare for picking up goods",
+      "node_type": "task",
+      "lane": "Warehouse",
+      "confidence": 1.0,
+      "reasoning": "'prepared for being picked up' = 'Prepare for picking up goods'. Exact match."
+    }
+  ],
+
+  "constraints": [
+    {
+      "id": "constr_01",
+      "template": "existence",
+      "activity_a": "Clarify shipment method",
+      "activity_b": "",
+      "source_text": "the secretary clarifies who will do the shipping",
+      "reasoning": "First action after start — must always occur."
+    },
+    {
+      "id": "constr_02",
+      "template": "existence",
+      "activity_a": "Package goods",
+      "activity_b": "",
+      "source_text": "the goods can be already packaged by the warehousemen",
+      "reasoning": "Parallel branch — packaging always happens."
+    },
+    {
+      "id": "constr_03",
+      "template": "existence",
+      "activity_a": "Prepare for picking up goods",
+      "activity_b": "",
+      "source_text": "the packaged goods are prepared for being picked up",
+      "reasoning": "Final task — must always occur."
+    },
+    {
+      "id": "constr_04",
+      "template": "existence",
+      "activity_a": "Write package label",
+      "activity_b": "",
+      "source_text": "a package label is written by the secretary",
+      "condition": "if small amounts",
+      "reasoning": "In the normal post path, writing a label is mandatory."
+    },
+    {
+      "id": "constr_05",
+      "template": "response",
+      "activity_a": "Get 3 offers from logistic companies",
+      "activity_b": "Select logistic company and place order",
+      "source_text": "invites three logistic companies to make offers and she selects one of them",
+      "reasoning": "If offers are requested, selection must follow."
+    },
+    {
+      "id": "constr_06",
+      "template": "precedence",
+      "activity_a": "Get 3 offers from logistic companies",
+      "activity_b": "Select logistic company and place order",
+      "source_text": "invites three logistic companies to make offers and she selects one of them",
+      "reasoning": "Selection can only happen after getting offers."
+    },
+    {
+      "id": "constr_07",
+      "template": "response",
+      "activity_a": "Clarify shipment method",
+      "activity_b": "Get 3 offers from logistic companies",
+      "source_text": "the secretary clarifies... the secretary invites three logistic companies",
+      "condition": "if large amounts",
+      "reasoning": "After clarification, if large amounts, offers must be obtained. Both Response and Precedence are valid here."
+    },
+    {
+      "id": "constr_08",
+      "template": "precedence",
+      "activity_a": "Clarify shipment method",
+      "activity_b": "Get 3 offers from logistic companies",
+      "source_text": "the secretary clarifies... the secretary invites three logistic companies",
+      "reasoning": "Getting offers only happens after clarification."
+    },
+    {
+      "id": "constr_09",
+      "template": "response",
+      "activity_a": "Clarify shipment method",
+      "activity_b": "Write package label",
+      "source_text": "the secretary clarifies... a package label is written",
+      "condition": "if small amounts",
+      "reasoning": "After clarification, if small amounts, a label must be written. Both Response and Precedence are valid."
+    },
+    {
+      "id": "constr_10",
+      "template": "precedence",
+      "activity_a": "Clarify shipment method",
+      "activity_b": "Write package label",
+      "source_text": "the secretary clarifies... a package label is written",
+      "reasoning": "Writing a label only happens after clarification."
+    },
+    {
+      "id": "constr_11",
+      "template": "not_coexistence",
+      "activity_a": "Get 3 offers from logistic companies",
+      "activity_b": "Write package label",
+      "source_text": "large amounts -> special shipping vs small amounts -> normal post",
+      "reasoning": "Mutually exclusive paths."
+    },
+    {
+      "id": "constr_12",
+      "template": "not_coexistence",
+      "activity_a": "Select logistic company and place order",
+      "activity_b": "Write package label",
+      "source_text": "selects one of them vs a package label is written",
+      "reasoning": "Logical consequence: if Get offers and Write label are mutually exclusive, and Select always follows Get offers, then Select and Write label are also mutually exclusive."
+    },
+    {
+      "id": "constr_13",
+      "template": "precedence",
+      "activity_a": "Package goods",
+      "activity_b": "Prepare for picking up goods",
+      "source_text": "If everything is ready, the packaged goods are prepared for being picked up",
+      "reasoning": "Packaging must be complete before preparation for pickup."
+    }
+  ],
+
+  "expected_traces": [
+    {
+      "name": "Large amounts path",
+      "trace": ["Clarify shipment method", "Get 3 offers from logistic companies", "Select logistic company and place order", "Package goods", "Prepare for picking up goods"]
+    },
+    {
+      "name": "Small amounts, with insurance",
+      "trace": ["Clarify shipment method", "Write package label", "Insure parcel", "Package goods", "Prepare for picking up goods"]
+    },
+    {
+      "name": "Small amounts, no insurance",
+      "trace": ["Clarify shipment method", "Write package label", "Package goods", "Prepare for picking up goods"]
+    }
+  ]
+}

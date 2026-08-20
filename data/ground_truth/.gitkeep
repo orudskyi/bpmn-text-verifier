@@ -1,0 +1,4 @@
+# Place manually annotated ground-truth JSON files here.
+# Expected files:
+#   dispatch_mapping.json
+#   recourse_mapping.json

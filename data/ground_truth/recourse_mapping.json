@@ -1,0 +1,285 @@
+{
+  "_meta": {
+    "process": "Recourse (Insurance Subrogation)",
+    "bpmn_file": "Recourse.bpmn",
+    "text_file": "RecourseDescription.txt",
+    "created_by": "manual annotation — revised April 2026",
+    "created_date": "2026-04-21",
+    "notes": "Aligned with actual text_loader sentence-splitting output (8 sentences → 8 fragments). DECLARE constraints verified against all 5 execution traces — all 10 constraints are satisfied by the original model. Removed two problematic constraints from earlier draft: Precedence(make_booking→close_case) which is violated on T1 (recourse not possible), and Response(check_case→send_request) which is violated on T1 as well. This process has a single lane (Recourse Clerk), so M5 lane-change mutation is N/A."
+  },
+
+  "fragments": [
+    {
+      "id": "frag_01",
+      "text": "If an insurant could be possibly subrogated against, I get information about that.",
+      "sentence_index": 0,
+      "role": "trigger / start condition"
+    },
+    {
+      "id": "frag_02",
+      "text": "I check that case and if the possibility is really there, I send a request for payment to the insurant and make me a reminder.",
+      "sentence_index": 1,
+      "role": "multi-action sentence: check case + send request + send reminder"
+    },
+    {
+      "id": "frag_03",
+      "text": "If recourse is not possible, I close the case.",
+      "sentence_index": 2,
+      "role": "condition + action"
+    },
+    {
+      "id": "frag_04",
+      "text": "When we receive the money, I make a booking and close the case.",
+      "sentence_index": 3,
+      "role": "event + two sequential actions"
+    },
+    {
+      "id": "frag_05",
+      "text": "If the insurant disagrees with the recourse, I will have to check the reasoning of that.",
+      "sentence_index": 4,
+      "role": "event + action"
+    },
+    {
+      "id": "frag_06",
+      "text": "If he is right, I simply close the case.",
+      "sentence_index": 5,
+      "role": "condition + action"
+    },
+    {
+      "id": "frag_07",
+      "text": "If he is wrong, I forward the case to a collection agency.",
+      "sentence_index": 6,
+      "role": "condition + action"
+    },
+    {
+      "id": "frag_08",
+      "text": "It the deadline for disagreement is reached and we have not received any money, I forward the case to the collection agency as well.",
+      "sentence_index": 7,
+      "role": "timeout event + action"
+    }
+  ],
+
+  "mappings": [
+    {
+      "fragment_id": "frag_01",
+      "fragment_text": "If an insurant could be possibly subrogated against, I get information about that.",
+      "node_id": "StartEvent_1mnut37",
+      "node_name": "probable recourse detected",
+      "node_type": "start_event",
+      "lane": "",
+      "confidence": 0.7,
+      "reasoning": "'insurant could be possibly subrogated' = 'probable recourse detected' — this fragment describes the start trigger. Note: the text says 'I get information about that' which implies an active step, but the BPMN model has no explicit 'get information' task — this is a genuine structural inconsistency between text and model. The closest element is the message start event."
+    },
+    {
+      "fragment_id": "frag_02",
+      "fragment_text": "I check that case and if the possibility is really there, I send a request for payment to the insurant and make me a reminder.",
+      "node_id": "Task_0iirfhd",
+      "node_name": "check case",
+      "node_type": "task",
+      "lane": "",
+      "confidence": 0.8,
+      "reasoning": "This sentence describes THREE actions: 'check that case' (= check case, Task_0iirfhd), 'send a request for payment' (= send request for payment, Task_02fdytg), and 'make me a reminder' (= send reminder, Task_12lthpj). The primary mapping is to 'check case' as the first dominant action. The system will likely return only one node for this fragment, so both Task_0iirfhd and Task_02fdytg are acceptable correct answers.",
+      "node_id_secondary": "Task_02fdytg",
+      "node_name_secondary": "send request for payment"
+    },
+    {
+      "fragment_id": "frag_03",
+      "fragment_text": "If recourse is not possible, I close the case.",
+      "node_id": "Task_04aofbe",
+      "node_name": "close case",
+      "node_type": "task",
+      "lane": "",
+      "confidence": 0.9,
+      "reasoning": "'I close the case' = 'close case'. Contextually this is Task_04aofbe reached via the 'no' branch of 'recourse possible?' gateway. Note: there are 3 tasks named 'close case' in the BPMN — the mapper should distinguish by context ('if recourse is not possible' → 'no' branch). Any close case task ID is acceptable in evaluation since all share the same name."
+    },
+    {
+      "fragment_id": "frag_04",
+      "fragment_text": "When we receive the money, I make a booking and close the case.",
+      "node_id": "Task_1bwmf45",
+      "node_name": "make booking",
+      "node_type": "task",
+      "lane": "",
+      "confidence": 0.95,
+      "reasoning": "This fragment maps to TWO tasks in sequence: 'make a booking' = Task_1bwmf45 ('make booking') and 'close the case' = Task_0yan60f ('close case'). Primary mapping is 'make booking' as the distinctive action. The trigger 'when we receive the money' maps to IntermediateCatchEvent_0d430z1 ('Money received').",
+      "node_id_secondary": "Task_0yan60f",
+      "node_name_secondary": "close case"
+    },
+    {
+      "fragment_id": "frag_05",
+      "fragment_text": "If the insurant disagrees with the recourse, I will have to check the reasoning of that.",
+      "node_id": "Task_0eti3m2",
+      "node_name": "check reasoning",
+      "node_type": "task",
+      "lane": "",
+      "confidence": 1.0,
+      "reasoning": "'check the reasoning' = 'check reasoning'. Exact semantic match. The trigger 'if the insurant disagrees' maps to IntermediateCatchEvent_1ias0p2 ('disagreement letter received')."
+    },
+    {
+      "fragment_id": "frag_06",
+      "fragment_text": "If he is right, I simply close the case.",
+      "node_id": "Task_1qlbv5i",
+      "node_name": "close case",
+      "node_type": "task",
+      "lane": "",
+      "confidence": 0.9,
+      "reasoning": "'close the case' reached via the 'yes' branch of 'OK?' gateway — Task_1qlbv5i. Since all three close case tasks share the same BPMN name, evaluate.py also accepts Task_04aofbe as correct (same name, reasonable alternative). Task_0yan60f (money path) is contextually less likely for this fragment.",
+      "node_id_secondary": "Task_04aofbe",
+      "node_name_secondary": "close case (recourse not possible path)"
+    },
+    {
+      "fragment_id": "frag_07",
+      "fragment_text": "If he is wrong, I forward the case to a collection agency.",
+      "node_id": "Task_1w7bb1w",
+      "node_name": "hand over to collection agency",
+      "node_type": "task",
+      "lane": "",
+      "confidence": 0.95,
+      "reasoning": "'forward the case to a collection agency' = 'hand over to collection agency'. Slight wording difference but clearly the same action. Reached via the 'no' branch of 'OK?' gateway."
+    },
+    {
+      "fragment_id": "frag_08",
+      "fragment_text": "It the deadline for disagreement is reached and we have not received any money, I forward the case to the collection agency as well.",
+      "node_id": "Task_1w7bb1w",
+      "node_name": "hand over to collection agency",
+      "node_type": "task",
+      "lane": "",
+      "confidence": 0.9,
+      "reasoning": "Same task as frag_07 but via a different path: the timer event branch. 'deadline for disagreement is reached' maps to IntermediateCatchEvent_037r6f2 ('Reminder is due'). Both frag_07 and frag_08 correctly point to the same 'hand over to collection agency' task, which is reachable via two different paths in the model."
+    }
+  ],
+
+  "constraints": [
+    {
+      "id": "constr_01",
+      "template": "existence",
+      "activity_a": "check case",
+      "activity_b": "",
+      "source_text": "I check that case",
+      "condition": "",
+      "reasoning": "First action after start event — always occurs in every execution path. Violated by mutation M1 that deletes 'check case'."
+    },
+    {
+      "id": "constr_02",
+      "template": "response",
+      "activity_a": "send request for payment",
+      "activity_b": "send reminder",
+      "source_text": "I send a request for payment to the insurant and make me a reminder",
+      "condition": "",
+      "reasoning": "The text says 'send a request AND make me a reminder' — whenever the payment request is sent, a reminder must follow. Verified: satisfied in all 5 execution traces. Violated by M1 that deletes 'send reminder'."
+    },
+    {
+      "id": "constr_03",
+      "template": "precedence",
+      "activity_a": "send request for payment",
+      "activity_b": "send reminder",
+      "source_text": "I send a request for payment to the insurant and make me a reminder",
+      "condition": "",
+      "reasoning": "Ordering implied: send request first, then send reminder. Verified: satisfied in all 5 traces. Violated by M3 that swaps their order."
+    },
+    {
+      "id": "constr_04",
+      "template": "precedence",
+      "activity_a": "check case",
+      "activity_b": "close case",
+      "source_text": "I check that case... If recourse is not possible, I close the case",
+      "condition": "",
+      "reasoning": "Any 'close case' occurrence requires 'check case' to have happened first. This applies to all three 'close case' tasks in the model. Verified: satisfied in all 5 traces (T1: check case → close case; T2-T3: check case → ... → close case; T4-T5: close case never occurs)."
+    },
+    {
+      "id": "constr_05",
+      "template": "precedence",
+      "activity_a": "check case",
+      "activity_b": "send request for payment",
+      "source_text": "I check that case and if the possibility is really there, I send a request for payment",
+      "condition": "",
+      "reasoning": "Payment request can only happen after the case was checked. Structural ordering. Verified: satisfied in all 5 traces."
+    },
+    {
+      "id": "constr_06",
+      "template": "response",
+      "activity_a": "make booking",
+      "activity_b": "close case",
+      "source_text": "I make a booking and close the case",
+      "condition": "when money is received",
+      "reasoning": "The text explicitly sequences these: 'make a booking AND close the case'. If make booking occurs, close case must follow. Verified: satisfied in all 5 traces (make booking only occurs in T2, where close case follows)."
+    },
+    {
+      "id": "constr_07",
+      "template": "not_coexistence",
+      "activity_a": "make booking",
+      "activity_b": "hand over to collection agency",
+      "source_text": "When we receive the money, I make a booking... If he is wrong, I forward the case to a collection agency",
+      "condition": "",
+      "reasoning": "These activities belong to mutually exclusive paths via the event-based gateway. 'make booking' is only on the 'money received' path; 'hand over' is on the 'disagreement' or 'timeout' paths. Verified: satisfied in all 5 traces."
+    },
+    {
+      "id": "constr_08",
+      "template": "precedence",
+      "activity_a": "send reminder",
+      "activity_b": "make booking",
+      "source_text": "make me a reminder... When we receive the money, I make a booking",
+      "condition": "",
+      "reasoning": "Structural: the event-based gateway (which leads to the make booking path) follows 'send reminder'. Make booking can only occur after a reminder was sent. Verified: satisfied in all 5 traces (T1-T3,T4-T5: make booking doesn't occur → vacuously true; T2: send reminder precedes make booking)."
+    },
+    {
+      "id": "constr_09",
+      "template": "precedence",
+      "activity_a": "send reminder",
+      "activity_b": "hand over to collection agency",
+      "source_text": "make me a reminder... I forward the case to the collection agency",
+      "condition": "",
+      "reasoning": "Both paths that lead to 'hand over to collection agency' (disagreement and timeout) go through the event-based gateway, which follows 'send reminder'. Verified: satisfied in all 5 traces."
+    },
+    {
+      "id": "constr_10",
+      "template": "precedence",
+      "activity_a": "send reminder",
+      "activity_b": "check reasoning",
+      "source_text": "make me a reminder... I will have to check the reasoning",
+      "condition": "",
+      "reasoning": "The 'check reasoning' step follows the 'disagreement letter received' branch of the event-based gateway, which itself follows 'send reminder'. Verified: satisfied in all 5 traces."
+    }
+  ],
+
+  "expected_traces": [
+    {
+      "name": "Recourse not possible",
+      "trace": ["check case", "close case"],
+      "end_event": "EndEvent_01a6rq8 (case closed)",
+      "note": "Shortest path — 'recourse possible?' gateway takes 'no' branch."
+    },
+    {
+      "name": "Money received",
+      "trace": ["check case", "send request for payment", "send reminder", "make booking", "close case"],
+      "end_event": "EndEvent_119yhl0 (case closed)",
+      "note": "Happy path — payment received via event-based gateway."
+    },
+    {
+      "name": "Disagreement — justified",
+      "trace": ["check case", "send request for payment", "send reminder", "check reasoning", "close case"],
+      "end_event": "EndEvent_0k9uozu (case closed)",
+      "note": "Insurant disagrees, reasoning is valid ('OK?' = yes), case closed."
+    },
+    {
+      "name": "Disagreement — not justified",
+      "trace": ["check case", "send request for payment", "send reminder", "check reasoning", "hand over to collection agency"],
+      "end_event": "EndEvent_0nfuudw (case open)",
+      "note": "Insurant disagrees, reasoning is invalid ('OK?' = no), forwarded to collection."
+    },
+    {
+      "name": "Timeout",
+      "trace": ["check case", "send request for payment", "send reminder", "hand over to collection agency"],
+      "end_event": "EndEvent_0nfuudw (case open)",
+      "note": "Deadline reached (timer event), no payment received, forwarded to collection."
+    }
+  ],
+
+  "_evaluation_notes": {
+    "expected_mapping_gt_count": 8,
+    "expected_constraint_gt_count": 10,
+    "m5_applicable": false,
+    "m5_reason": "Recourse is a single-lane process (one participant 'Recourse Clerk') — lane-change mutation has no meaningful targets. mutate.py will auto-skip M5.",
+    "multi_name_warning": "Three BPMN tasks share the name 'close case' (Task_04aofbe, Task_1qlbv5i, Task_0yan60f). The Mapper agent must disambiguate by context. evaluate.py accepts any 'close case' task ID as correct for frag_06 due to node_id_secondary and node_id_tertiary fields. Constraint evaluation uses activity names, so all three tasks match 'close case' constraints — this is correct DECLARE semantics.",
+    "genuine_inconsistency": "frag_01 describes 'I get information about that' as an active step, but the BPMN model has no corresponding task — only a message start event 'probable recourse detected'. This is a real text-model inconsistency that a working pipeline should flag."
+  }
+}
