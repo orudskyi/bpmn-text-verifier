@@ -1,0 +1,333 @@
+{
+  "process_name": "Dispatch of goods Computer Hardware Shop",
+  "bpmn_file": "results/mutations/dispatch/M2_add_task.bpmn",
+  "text_file": "data/dispatch/DispatchDescription.txt",
+  "graph_summary": {
+    "nodes": 16,
+    "edges": 18,
+    "lanes": 3,
+    "tasks": 8
+  },
+  "mappings": [
+    {
+      "fragment_id": "frag_01",
+      "fragment_text": "If goods shall be shipped, the secretary clarifies who will do the shipping",
+      "node_id": "Task_0vaxgaa",
+      "node_name": "Clarify shipment method",
+      "confidence": 1.0
+    },
+    {
+      "fragment_id": "frag_02",
+      "fragment_text": "If you have large amounts, special shipping will be necessary",
+      "node_id": "ExclusiveGateway_1mpgzhg",
+      "node_name": "Special sandling?",
+      "confidence": 1.0
+    },
+    {
+      "fragment_id": "frag_03",
+      "fragment_text": "In these cases the secretary invites three logistic companies to make offers and she selects one of them",
+      "node_id": "Task_0e6hvnj",
+      "node_name": "Get 3 offers from logistic companies",
+      "confidence": 0.8
+    },
+    {
+      "fragment_id": "frag_04",
+      "fragment_text": "In case of small amounts, normal post shipment is used",
+      "node_id": "InclusiveGateway_1dgb4sg",
+      "node_name": "",
+      "confidence": 0.5
+    },
+    {
+      "fragment_id": "frag_05",
+      "fragment_text": "a package label is written by the secretary and a parcel insurance taken by the logistics department head if necessary",
+      "node_id": "Task_0jsoxba",
+      "node_name": "Write package label",
+      "confidence": 0.7
+    },
+    {
+      "fragment_id": "frag_06",
+      "fragment_text": "In the meantime the goods can be already packaged by the warehousemen",
+      "node_id": "Task_05ftug5",
+      "node_name": "Package goods",
+      "confidence": 1.0
+    },
+    {
+      "fragment_id": "frag_07",
+      "fragment_text": "If everything is ready, the packaged goods are prepared for being picked up by the logistic company",
+      "node_id": "Task_0sl26uo",
+      "node_name": "Prepare for picking up goods",
+      "confidence": 1.0
+    }
+  ],
+  "constraints": [
+    {
+      "id": "constr_01",
+      "template": "response",
+      "activity_a": "Clarify shipment method",
+      "activity_b": "Get 3 offers from logistic companies",
+      "source_text": "If goods shall be shipped, the secretary clarifies who will do the shipping. If you have large amounts, special shipping will be necessary. In these cases the secretary invites three logistic companies to make offers",
+      "condition": "if large amounts"
+    },
+    {
+      "id": "constr_02",
+      "template": "response",
+      "activity_a": "Clarify shipment method",
+      "activity_b": "Select logistic company and place order",
+      "source_text": "If goods shall be shipped, the secretary clarifies who will do the shipping. If you have large amounts, special shipping will be necessary. In these cases the secretary invites three logistic companies to make offers and she selects one of them",
+      "condition": "if large amounts"
+    },
+    {
+      "id": "constr_03",
+      "template": "response",
+      "activity_a": "Clarify shipment method",
+      "activity_b": "Write package label",
+      "source_text": "If goods shall be shipped, the secretary clarifies who will do the shipping. In case of small amounts, normal post shipment is used. a package label is written by the secretary",
+      "condition": "if small amounts"
+    },
+    {
+      "id": "constr_04",
+      "template": "response",
+      "activity_a": "Clarify shipment method",
+      "activity_b": "Insure parcel",
+      "source_text": "If goods shall be shipped, the secretary clarifies who will do the shipping. a parcel insurance taken by the logistics department head if necessary",
+      "condition": "if necessary"
+    },
+    {
+      "id": "constr_05",
+      "template": "precedence",
+      "activity_a": "Select logistic company and place order",
+      "activity_b": "Prepare for picking up goods",
+      "source_text": "If everything is ready, the packaged goods are prepared for being picked up by the logistic company.",
+      "condition": ""
+    },
+    {
+      "id": "constr_06",
+      "template": "precedence",
+      "activity_a": "Package goods",
+      "activity_b": "Prepare for picking up goods",
+      "source_text": "If everything is ready, the packaged goods are prepared for being picked up by the logistic company.",
+      "condition": ""
+    },
+    {
+      "id": "constr_07",
+      "template": "existence",
+      "activity_a": "Clarify shipment method",
+      "activity_b": "",
+      "source_text": "If goods shall be shipped, the secretary clarifies who will do the shipping.",
+      "condition": ""
+    },
+    {
+      "id": "constr_08",
+      "template": "existence",
+      "activity_a": "Write package label",
+      "activity_b": "",
+      "source_text": "a package label is written by the secretary",
+      "condition": ""
+    },
+    {
+      "id": "constr_09",
+      "template": "existence",
+      "activity_a": "Package goods",
+      "activity_b": "",
+      "source_text": "In the meantime the goods can be already packaged by the warehousemen.",
+      "condition": ""
+    },
+    {
+      "id": "constr_10",
+      "template": "existence",
+      "activity_a": "Prepare for picking up goods",
+      "activity_b": "",
+      "source_text": "If everything is ready, the packaged goods are prepared for being picked up by the logistic company.",
+      "condition": ""
+    },
+    {
+      "id": "constr_11",
+      "template": "response",
+      "activity_a": "Select logistic company and place order",
+      "activity_b": "Ship goods",
+      "source_text": "she selects one of them.",
+      "condition": ""
+    },
+    {
+      "id": "constr_12",
+      "template": "response",
+      "activity_a": "Write package label",
+      "activity_b": "Ship goods",
+      "source_text": "a package label is written by the secretary",
+      "condition": ""
+    },
+    {
+      "id": "constr_13",
+      "template": "response",
+      "activity_a": "Insure parcel",
+      "activity_b": "Ship goods",
+      "source_text": "a parcel insurance taken by the logistics department head if necessary.",
+      "condition": ""
+    },
+    {
+      "id": "constr_14",
+      "template": "choice",
+      "activity_a": "Get 3 offers from logistic companies",
+      "activity_b": "Select logistic company and place order",
+      "source_text": "In these cases the secretary invites three logistic companies to make offers and she selects one of them.",
+      "condition": "if large amounts"
+    },
+    {
+      "id": "constr_15",
+      "template": "choice",
+      "activity_a": "Write package label",
+      "activity_b": "Insure parcel",
+      "source_text": "a package label is written by the secretary and a parcel insurance taken by the logistics department head if necessary.",
+      "condition": ""
+    }
+  ],
+  "verification": {
+    "is_conformant": false,
+    "total_constraints": 15,
+    "satisfied": 4,
+    "violated": 11,
+    "violations": [
+      {
+        "constraint_id": "constr_01",
+        "constraint_description": "response(Clarify shipment method, Get 3 offers from logistic companies)",
+        "trace": [
+          "Clarify shipment method",
+          "Insure parcel",
+          "Verify compliance documents",
+          "Prepare for picking up goods",
+          "Package goods",
+          "Prepare for picking up goods"
+        ],
+        "explanation": "The process should ensure that \"Get 3 offers from logistic companies\" is performed after \"Clarify shipment method\". However, the model allows \"Clarify shipment method\" to be followed by other activities like \"Insure parcel\" without getting offers. This means offers might not be obtained when needed, potentially leading to suboptimal shipping choices."
+      },
+      {
+        "constraint_id": "constr_02",
+        "constraint_description": "response(Clarify shipment method, Select logistic company and place order)",
+        "trace": [
+          "Clarify shipment method",
+          "Insure parcel",
+          "Verify compliance documents",
+          "Prepare for picking up goods",
+          "Package goods",
+          "Prepare for picking up goods"
+        ],
+        "explanation": "The process should ensure that \"Select logistic company and place order\" is performed after \"Clarify shipment method\". The current model allows \"Clarify shipment method\" to be followed by other steps, skipping the selection of a logistic company. This could result in shipments being arranged without a proper selection process."
+      },
+      {
+        "constraint_id": "constr_03",
+        "constraint_description": "response(Clarify shipment method, Write package label)",
+        "trace": [
+          "Clarify shipment method",
+          "Insure parcel",
+          "Verify compliance documents",
+          "Prepare for picking up goods",
+          "Package goods",
+          "Prepare for picking up goods"
+        ],
+        "explanation": "The process should ensure that \"Write package label\" is performed after \"Clarify shipment method\". The model allows \"Clarify shipment method\" to be followed by other activities, such as \"Insure parcel\", without writing a package label. This could lead to packages being prepared without the necessary labels."
+      },
+      {
+        "constraint_id": "constr_04",
+        "constraint_description": "response(Clarify shipment method, Insure parcel)",
+        "trace": [
+          "Clarify shipment method",
+          "Write package label",
+          "Prepare for picking up goods",
+          "Package goods",
+          "Prepare for picking up goods"
+        ],
+        "explanation": "The process should ensure that \"Insure parcel\" is performed after \"Clarify shipment method\". The model allows \"Clarify shipment method\" to be followed by \"Write package label\" instead of insuring the parcel. This means parcels might be shipped without the required insurance."
+      },
+      {
+        "constraint_id": "constr_05",
+        "constraint_description": "precedence(Select logistic company and place order, Prepare for picking up goods)",
+        "trace": [
+          "Clarify shipment method",
+          "Insure parcel",
+          "Verify compliance documents",
+          "Prepare for picking up goods",
+          "Package goods",
+          "Prepare for picking up goods"
+        ],
+        "explanation": "The process should ensure that \"Select logistic company and place order\" happens before \"Prepare for picking up goods\". The trace shows \"Prepare for picking up goods\" can occur after \"Clarify shipment method\" without selecting a logistic company. This is problematic as goods should not be prepared for pickup before a company is chosen."
+      },
+      {
+        "constraint_id": "constr_06",
+        "constraint_description": "precedence(Package goods, Prepare for picking up goods)",
+        "trace": [
+          "Clarify shipment method",
+          "Insure parcel",
+          "Verify compliance documents",
+          "Prepare for picking up goods",
+          "Package goods",
+          "Prepare for picking up goods"
+        ],
+        "explanation": "The process should ensure that \"Package goods\" happens before \"Prepare for picking up goods\". The trace shows \"Prepare for picking up goods\" can occur before \"Package goods\". This is illogical because goods must be packaged before they can be prepared for pickup."
+      },
+      {
+        "constraint_id": "constr_08",
+        "constraint_description": "existence(Write package label)",
+        "trace": [
+          "Clarify shipment method",
+          "Insure parcel",
+          "Verify compliance documents",
+          "Prepare for picking up goods",
+          "Package goods",
+          "Prepare for picking up goods"
+        ],
+        "explanation": "The process requires that \"Write package label\" must occur at some point. However, the provided trace shows a path where \"Write package label\" is skipped entirely. This means some shipments might proceed without a label, causing potential delivery issues."
+      },
+      {
+        "constraint_id": "constr_11",
+        "constraint_description": "response(Select logistic company and place order, Ship goods)",
+        "trace": [
+          "Clarify shipment method",
+          "Get 3 offers from logistic companies",
+          "Select logistic company and place order",
+          "Prepare for picking up goods",
+          "Package goods",
+          "Prepare for picking up goods"
+        ],
+        "explanation": "The process should ensure that \"Ship goods\" is performed after \"Select logistic company and place order\". The trace shows a path where \"Select logistic company and place order\" occurs, but \"Ship goods\" does not necessarily follow. This could lead to orders being placed but never shipped."
+      },
+      {
+        "constraint_id": "constr_12",
+        "constraint_description": "response(Write package label, Ship goods)",
+        "trace": [
+          "Clarify shipment method",
+          "Write package label",
+          "Prepare for picking up goods",
+          "Package goods",
+          "Prepare for picking up goods"
+        ],
+        "explanation": "The process should ensure that \"Ship goods\" is performed after \"Write package label\". The trace shows a path where \"Write package label\" occurs, but \"Ship goods\" does not necessarily follow. This means packages might be labeled but never shipped, leading to inventory issues."
+      },
+      {
+        "constraint_id": "constr_13",
+        "constraint_description": "response(Insure parcel, Ship goods)",
+        "trace": [
+          "Clarify shipment method",
+          "Insure parcel",
+          "Verify compliance documents",
+          "Prepare for picking up goods",
+          "Package goods",
+          "Prepare for picking up goods"
+        ],
+        "explanation": "The process should ensure that \"Ship goods\" is performed after \"Insure parcel\". The trace shows a path where \"Insure parcel\" occurs, but \"Ship goods\" does not necessarily follow. This could result in parcels being insured but never shipped, wasting insurance costs."
+      },
+      {
+        "constraint_id": "constr_15",
+        "constraint_description": "choice(Write package label, Insure parcel)",
+        "trace": [
+          "Clarify shipment method",
+          "Get 3 offers from logistic companies",
+          "Select logistic company and place order",
+          "Prepare for picking up goods",
+          "Package goods",
+          "Prepare for picking up goods"
+        ],
+        "explanation": "The process requires that either \"Write package label\" or \"Insure parcel\" must happen. The trace shows a path where neither of these activities occurs after \"Clarify shipment method\". This means shipments might be processed without either a label or insurance, which is not allowed."
+      }
+    ]
+  }
+}

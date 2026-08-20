@@ -1,0 +1,161 @@
+{
+  "process_name": "Dispatch of goods Computer Hardware Shop",
+  "bpmn_file": "results/mutations/dispatch/M4_remove_branch.bpmn",
+  "text_file": "data/dispatch/DispatchDescription.txt",
+  "graph_summary": {
+    "nodes": 15,
+    "edges": 16,
+    "lanes": 3,
+    "tasks": 7
+  },
+  "mappings": [
+    {
+      "fragment_id": "frag_01",
+      "fragment_text": "If goods shall be shipped, the secretary clarifies who will do the shipping",
+      "node_id": "Task_05ftug5",
+      "node_name": "Package goods",
+      "confidence": 0.5
+    },
+    {
+      "fragment_id": "frag_03",
+      "fragment_text": "In these cases the secretary invites three logistic companies to make offers and she selects one of them",
+      "node_id": "Task_0e6hvnj",
+      "node_name": "Get 3 offers from logistic companies",
+      "confidence": 0.5
+    },
+    {
+      "fragment_id": "frag_04",
+      "fragment_text": "In case of small amounts, normal post shipment is used",
+      "node_id": "Task_0vaxgaa",
+      "node_name": "Clarify shipment method",
+      "confidence": 0.5
+    },
+    {
+      "fragment_id": "frag_05",
+      "fragment_text": "a package label is written by the secretary and a parcel insurance taken by the logistics department head if necessary",
+      "node_id": "Task_12j0pib",
+      "node_name": "Insure parcel",
+      "confidence": 0.5
+    },
+    {
+      "fragment_id": "frag_06",
+      "fragment_text": "In the meantime the goods can be already packaged by the warehousemen",
+      "node_id": "Task_05ftug5",
+      "node_name": "Package goods",
+      "confidence": 0.5
+    },
+    {
+      "fragment_id": "frag_07",
+      "fragment_text": "If everything is ready, the packaged goods are prepared for being picked up by the logistic company",
+      "node_id": "Task_0e6hvnj",
+      "node_name": "Get 3 offers from logistic companies",
+      "confidence": 0.5
+    }
+  ],
+  "constraints": [],
+  "verification": {
+    "is_conformant": false,
+    "total_constraints": 7,
+    "satisfied": 0,
+    "violated": 7,
+    "violations": [
+      {
+        "constraint_id": "llm_inc_01",
+        "constraint_description": "[structural] The text mentions clarifying who will do the shipping, but the BPMN model shows clarification of the shipment method instead.",
+        "trace": [],
+        "explanation": "The text mentions clarifying who will do the shipping, but the BPMN model shows clarification of the shipment method instead."
+      },
+      {
+        "constraint_id": "llm_inc_02",
+        "constraint_description": "[behavioral] The text implies that special shipping is determined by the amount of goods, while the BPMN model uses a gateway named 'Special handling?' without a clear condition related to the amount.",
+        "trace": [],
+        "explanation": "The text implies that special shipping is determined by the amount of goods, while the BPMN model uses a gateway named 'Special handling?' without a clear condition related to the amount."
+      },
+      {
+        "constraint_id": "llm_inc_03",
+        "constraint_description": "[structural] The text states that the secretary invites three logistic companies and selects one, but the BPMN model shows 'Get 3 offers from logistic companies' and 'Select logistic company and place order' as separate tasks, and it's not explicitly stated that the secretary performs both.",
+        "trace": [],
+        "explanation": "The text states that the secretary invites three logistic companies and selects one, but the BPMN model shows 'Get 3 offers from logistic companies' and 'Select logistic company and place order' as separate tasks, and it's not explicitly stated that the secretary performs both."
+      },
+      {
+        "constraint_id": "llm_inc_04",
+        "constraint_description": "[structural] The text mentions 'normal post shipment' for small amounts, but there is no corresponding task or clear path in the BPMN model for this scenario.",
+        "trace": [],
+        "explanation": "The text mentions 'normal post shipment' for small amounts, but there is no corresponding task or clear path in the BPMN model for this scenario."
+      },
+      {
+        "constraint_id": "llm_inc_05",
+        "constraint_description": "[resource] The text states that the parcel insurance is taken by the logistics department head, but the BPMN model shows the task 'Insure parcel' assigned to 'Logistics'.",
+        "trace": [],
+        "explanation": "The text states that the parcel insurance is taken by the logistics department head, but the BPMN model shows the task 'Insure parcel' assigned to 'Logistics'."
+      },
+      {
+        "constraint_id": "llm_inc_06",
+        "constraint_description": "[behavioral] The text mentions that goods can be packaged by warehousemen 'in the meantime', implying it can happen concurrently with other tasks. The BPMN model shows 'Package goods' happening in parallel with 'Clarify shipment method' after the start event, which aligns with the 'in the meantime' aspect.",
+        "trace": [],
+        "explanation": "The text mentions that goods can be packaged by warehousemen 'in the meantime', implying it can happen concurrently with other tasks. The BPMN model shows 'Package goods' happening in parallel with 'Clarify shipment method' after the start event, which aligns with the 'in the meantime' aspect."
+      },
+      {
+        "constraint_id": "llm_inc_07",
+        "constraint_description": "[structural] The text states that packaged goods are prepared for pickup by the logistic company, but the BPMN model shows 'Prepare for picking up goods' leading to the end event, without explicitly mentioning the logistic company's pickup.",
+        "trace": [],
+        "explanation": "The text states that packaged goods are prepared for pickup by the logistic company, but the BPMN model shows 'Prepare for picking up goods' leading to the end event, without explicitly mentioning the logistic company's pickup."
+      }
+    ]
+  },
+  "baseline_method": "pure_llm",
+  "llm_raw_output": {
+    "inconsistencies": [
+      {
+        "description": "The text mentions clarifying who will do the shipping, but the BPMN model shows clarification of the shipment method instead.",
+        "text_fragment": "If goods shall be shipped, the secretary clarifies who will do the shipping",
+        "bpmn_element": "Task_0vaxgaa",
+        "severity": "medium",
+        "type": "structural"
+      },
+      {
+        "description": "The text implies that special shipping is determined by the amount of goods, while the BPMN model uses a gateway named 'Special handling?' without a clear condition related to the amount.",
+        "text_fragment": "If you have large amounts, special shipping will be necessary",
+        "bpmn_element": "Special sandling?",
+        "severity": "medium",
+        "type": "behavioral"
+      },
+      {
+        "description": "The text states that the secretary invites three logistic companies and selects one, but the BPMN model shows 'Get 3 offers from logistic companies' and 'Select logistic company and place order' as separate tasks, and it's not explicitly stated that the secretary performs both.",
+        "text_fragment": "In these cases the secretary invites three logistic companies to make offers and she selects one of them",
+        "bpmn_element": "Task_0e6hvnj, Task_0s79ile",
+        "severity": "medium",
+        "type": "structural"
+      },
+      {
+        "description": "The text mentions 'normal post shipment' for small amounts, but there is no corresponding task or clear path in the BPMN model for this scenario.",
+        "text_fragment": "In case of small amounts, normal post shipment is used",
+        "bpmn_element": "InclusiveGateway_1dgb4sg",
+        "severity": "high",
+        "type": "structural"
+      },
+      {
+        "description": "The text states that the parcel insurance is taken by the logistics department head, but the BPMN model shows the task 'Insure parcel' assigned to 'Logistics'.",
+        "text_fragment": "a package label is written by the secretary and a parcel insurance taken by the logistics department head if necessary",
+        "bpmn_element": "Task_12j0pib",
+        "severity": "medium",
+        "type": "resource"
+      },
+      {
+        "description": "The text mentions that goods can be packaged by warehousemen 'in the meantime', implying it can happen concurrently with other tasks. The BPMN model shows 'Package goods' happening in parallel with 'Clarify shipment method' after the start event, which aligns with the 'in the meantime' aspect.",
+        "text_fragment": "In the meantime the goods can be already packaged by the warehousemen",
+        "bpmn_element": "Task_05ftug5, ParallelGateway_02fgrfq",
+        "severity": "low",
+        "type": "behavioral"
+      },
+      {
+        "description": "The text states that packaged goods are prepared for pickup by the logistic company, but the BPMN model shows 'Prepare for picking up goods' leading to the end event, without explicitly mentioning the logistic company's pickup.",
+        "text_fragment": "If everything is ready, the packaged goods are prepared for being picked up by the logistic company",
+        "bpmn_element": "Task_0sl26uo",
+        "severity": "medium",
+        "type": "structural"
+      }
+    ],
+    "summary": "Several inconsistencies were found, primarily related to the conditions triggering certain tasks (special shipping based on amount), the specific actions within tasks (clarifying who ships vs. shipment method), the assignment of roles (logistics department head vs. Logistics lane), and missing process paths for certain scenarios (normal post shipment)."
+  }
+}

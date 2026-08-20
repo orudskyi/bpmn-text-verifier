@@ -1,0 +1,161 @@
+{
+  "process_name": "Dispatch of goods Computer Hardware Shop",
+  "bpmn_file": "results/mutations/dispatch/M3_swap_tasks.bpmn",
+  "text_file": "data/dispatch/DispatchDescription.txt",
+  "graph_summary": {
+    "nodes": 15,
+    "edges": 17,
+    "lanes": 3,
+    "tasks": 7
+  },
+  "mappings": [
+    {
+      "fragment_id": "frag_01",
+      "fragment_text": "If goods shall be shipped, the secretary clarifies who will do the shipping",
+      "node_id": "Task_05ftug5",
+      "node_name": "Package goods",
+      "confidence": 0.5
+    },
+    {
+      "fragment_id": "frag_03",
+      "fragment_text": "In these cases the secretary invites three logistic companies to make offers and she selects one of them",
+      "node_id": "Task_0e6hvnj",
+      "node_name": "Get 3 offers from logistic companies",
+      "confidence": 0.5
+    },
+    {
+      "fragment_id": "frag_04",
+      "fragment_text": "In case of small amounts, normal post shipment is used",
+      "node_id": "Task_0vaxgaa",
+      "node_name": "Clarify shipment method",
+      "confidence": 0.5
+    },
+    {
+      "fragment_id": "frag_05",
+      "fragment_text": "a package label is written by the secretary and a parcel insurance taken by the logistics department head if necessary",
+      "node_id": "Task_12j0pib",
+      "node_name": "Write package label",
+      "confidence": 0.5
+    },
+    {
+      "fragment_id": "frag_06",
+      "fragment_text": "In the meantime the goods can be already packaged by the warehousemen",
+      "node_id": "Task_05ftug5",
+      "node_name": "Package goods",
+      "confidence": 0.5
+    },
+    {
+      "fragment_id": "frag_07",
+      "fragment_text": "If everything is ready, the packaged goods are prepared for being picked up by the logistic company",
+      "node_id": "Task_0e6hvnj",
+      "node_name": "Get 3 offers from logistic companies",
+      "confidence": 0.5
+    }
+  ],
+  "constraints": [],
+  "verification": {
+    "is_conformant": false,
+    "total_constraints": 7,
+    "satisfied": 0,
+    "violated": 7,
+    "violations": [
+      {
+        "constraint_id": "llm_inc_01",
+        "constraint_description": "[behavioral] The text mentions that the secretary clarifies who will do the shipping, but the BPMN model shows the secretary clarifying the shipment method.",
+        "trace": [],
+        "explanation": "The text mentions that the secretary clarifies who will do the shipping, but the BPMN model shows the secretary clarifying the shipment method."
+      },
+      {
+        "constraint_id": "llm_inc_02",
+        "constraint_description": "[behavioral] The text implies that special shipping is a condition for inviting multiple logistic companies, but the BPMN model shows this path being taken regardless of special handling.",
+        "trace": [],
+        "explanation": "The text implies that special shipping is a condition for inviting multiple logistic companies, but the BPMN model shows this path being taken regardless of special handling."
+      },
+      {
+        "constraint_id": "llm_inc_03",
+        "constraint_description": "[resource] The text states that the secretary writes the package label, but the BPMN model assigns this task to the Logistics lane.",
+        "trace": [],
+        "explanation": "The text states that the secretary writes the package label, but the BPMN model assigns this task to the Logistics lane."
+      },
+      {
+        "constraint_id": "llm_inc_04",
+        "constraint_description": "[resource] The text states that the parcel insurance is taken by the logistics department head, but the BPMN model assigns this task to the Secretary lane.",
+        "trace": [],
+        "explanation": "The text states that the parcel insurance is taken by the logistics department head, but the BPMN model assigns this task to the Secretary lane."
+      },
+      {
+        "constraint_id": "llm_inc_05",
+        "constraint_description": "[behavioral] The text mentions that goods can be packaged by warehousemen in the meantime, but the BPMN model shows packaging happening after clarifying the shipment method and potentially after getting offers and selecting a company.",
+        "trace": [],
+        "explanation": "The text mentions that goods can be packaged by warehousemen in the meantime, but the BPMN model shows packaging happening after clarifying the shipment method and potentially after getting offers and selecting a company."
+      },
+      {
+        "constraint_id": "llm_inc_06",
+        "constraint_description": "[behavioral] The text states that packaged goods are prepared for pickup by the logistic company, but the BPMN model shows this step occurring before the goods are packaged.",
+        "trace": [],
+        "explanation": "The text states that packaged goods are prepared for pickup by the logistic company, but the BPMN model shows this step occurring before the goods are packaged."
+      },
+      {
+        "constraint_id": "llm_inc_07",
+        "constraint_description": "[structural] The text mentions 'normal post shipment' for small amounts, but there is no corresponding task or condition in the BPMN model to represent this.",
+        "trace": [],
+        "explanation": "The text mentions 'normal post shipment' for small amounts, but there is no corresponding task or condition in the BPMN model to represent this."
+      }
+    ]
+  },
+  "baseline_method": "pure_llm",
+  "llm_raw_output": {
+    "inconsistencies": [
+      {
+        "description": "The text mentions that the secretary clarifies who will do the shipping, but the BPMN model shows the secretary clarifying the shipment method.",
+        "text_fragment": "If goods shall be shipped, the secretary clarifies who will do the shipping",
+        "bpmn_element": "Task_0vaxgaa",
+        "severity": "medium",
+        "type": "behavioral"
+      },
+      {
+        "description": "The text implies that special shipping is a condition for inviting multiple logistic companies, but the BPMN model shows this path being taken regardless of special handling.",
+        "text_fragment": "If you have large amounts, special shipping will be necessary In these cases the secretary invites three logistic companies to make offers and she selects one of them",
+        "bpmn_element": "Special sandling?",
+        "severity": "medium",
+        "type": "behavioral"
+      },
+      {
+        "description": "The text states that the secretary writes the package label, but the BPMN model assigns this task to the Logistics lane.",
+        "text_fragment": "a package label is written by the secretary",
+        "bpmn_element": "Task_12j0pib",
+        "severity": "medium",
+        "type": "resource"
+      },
+      {
+        "description": "The text states that the parcel insurance is taken by the logistics department head, but the BPMN model assigns this task to the Secretary lane.",
+        "text_fragment": "a parcel insurance taken by the logistics department head if necessary",
+        "bpmn_element": "Task_0jsoxba",
+        "severity": "medium",
+        "type": "resource"
+      },
+      {
+        "description": "The text mentions that goods can be packaged by warehousemen in the meantime, but the BPMN model shows packaging happening after clarifying the shipment method and potentially after getting offers and selecting a company.",
+        "text_fragment": "In the meantime the goods can be already packaged by the warehousemen",
+        "bpmn_element": "Task_05ftug5",
+        "severity": "medium",
+        "type": "behavioral"
+      },
+      {
+        "description": "The text states that packaged goods are prepared for pickup by the logistic company, but the BPMN model shows this step occurring before the goods are packaged.",
+        "text_fragment": "If everything is ready, the packaged goods are prepared for being picked up by the logistic company",
+        "bpmn_element": "Task_0sl26uo",
+        "severity": "medium",
+        "type": "behavioral"
+      },
+      {
+        "description": "The text mentions 'normal post shipment' for small amounts, but there is no corresponding task or condition in the BPMN model to represent this.",
+        "text_fragment": "In case of small amounts, normal post shipment is used",
+        "bpmn_element": "InclusiveGateway_0p2e5vq",
+        "severity": "low",
+        "type": "structural"
+      }
+    ],
+    "summary": "There are several inconsistencies between the text description and the BPMN model, primarily concerning the assignment of tasks to roles (resource inconsistencies) and the sequence and conditions of certain steps (behavioral and structural inconsistencies). Specifically, the roles of the secretary and logistics department for writing package labels and insuring parcels are swapped. The timing and conditions for special shipping, normal post shipment, packaging, and preparation for pickup also differ between the text and the model."
+  }
+}

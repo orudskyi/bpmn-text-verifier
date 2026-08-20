@@ -1,0 +1,301 @@
+{
+  "process_name": "Dispatch of goods Computer Hardware Shop",
+  "bpmn_file": "results/mutations/dispatch/M3_swap_tasks.bpmn",
+  "text_file": "data/dispatch/DispatchDescription.txt",
+  "graph_summary": {
+    "nodes": 15,
+    "edges": 17,
+    "lanes": 3,
+    "tasks": 7
+  },
+  "mappings": [
+    {
+      "fragment_id": "frag_01",
+      "fragment_text": "If goods shall be shipped, the secretary clarifies who will do the shipping",
+      "node_id": "Task_0vaxgaa",
+      "node_name": "Clarify shipment method",
+      "confidence": 1.0
+    },
+    {
+      "fragment_id": "frag_02",
+      "fragment_text": "If you have large amounts, special shipping will be necessary",
+      "node_id": "ExclusiveGateway_1mpgzhg",
+      "node_name": "Special sandling?",
+      "confidence": 1.0
+    },
+    {
+      "fragment_id": "frag_03",
+      "fragment_text": "In these cases the secretary invites three logistic companies to make offers and she selects one of them",
+      "node_id": "Task_0e6hvnj",
+      "node_name": "Get 3 offers from logistic companies",
+      "confidence": 0.8
+    },
+    {
+      "fragment_id": "frag_04",
+      "fragment_text": "In case of small amounts, normal post shipment is used",
+      "node_id": "InclusiveGateway_1ouv9kf",
+      "node_name": "",
+      "confidence": 0.0
+    },
+    {
+      "fragment_id": "frag_05",
+      "fragment_text": "a package label is written by the secretary and a parcel insurance taken by the logistics department head if necessary",
+      "node_id": "Task_0jsoxba",
+      "node_name": "Insure parcel",
+      "confidence": 0.6
+    },
+    {
+      "fragment_id": "frag_06",
+      "fragment_text": "In the meantime the goods can be already packaged by the warehousemen",
+      "node_id": "Task_05ftug5",
+      "node_name": "Package goods",
+      "confidence": 1.0
+    },
+    {
+      "fragment_id": "frag_07",
+      "fragment_text": "If everything is ready, the packaged goods are prepared for being picked up by the logistic company",
+      "node_id": "Task_0sl26uo",
+      "node_name": "Prepare for picking up goods",
+      "confidence": 1.0
+    }
+  ],
+  "constraints": [
+    {
+      "id": "constr_01",
+      "template": "response",
+      "activity_a": "Clarify shipment method",
+      "activity_b": "Get 3 offers from logistic companies",
+      "source_text": "If goods shall be shipped, the secretary clarifies who will do the shipping. If you have large amounts, special shipping will be necessary. In these cases the secretary invites three logistic companies to make offers and she selects one of them.",
+      "condition": "large amounts"
+    },
+    {
+      "id": "constr_02",
+      "template": "response",
+      "activity_a": "Clarify shipment method",
+      "activity_b": "Select logistic company and place order",
+      "source_text": "If goods shall be shipped, the secretary clarifies who will do the shipping. If you have large amounts, special shipping will be necessary. In these cases the secretary invites three logistic companies to make offers and she selects one of them.",
+      "condition": "large amounts"
+    },
+    {
+      "id": "constr_03",
+      "template": "response",
+      "activity_a": "Clarify shipment method",
+      "activity_b": "Write package label",
+      "source_text": "If goods shall be shipped, the secretary clarifies who will do the shipping. ... In case of small amounts, normal post shipment is used. a package label is written by the secretary...",
+      "condition": "small amounts"
+    },
+    {
+      "id": "constr_04",
+      "template": "response",
+      "activity_a": "Clarify shipment method",
+      "activity_b": "Insure parcel",
+      "source_text": "If goods shall be shipped, the secretary clarifies who will do the shipping. ... a parcel insurance taken by the logistics department head if necessary.",
+      "condition": "necessary"
+    },
+    {
+      "id": "constr_05",
+      "template": "precedence",
+      "activity_a": "Package goods",
+      "activity_b": "Prepare for picking up goods",
+      "source_text": "In the meantime the goods can be already packaged by the warehousemen. If everything is ready, the packaged goods are prepared for being picked up by the logistic company.",
+      "condition": ""
+    },
+    {
+      "id": "constr_06",
+      "template": "response",
+      "activity_a": "Package goods",
+      "activity_b": "Prepare for picking up goods",
+      "source_text": "In the meantime the goods can be already packaged by the warehousemen. If everything is ready, the packaged goods are prepared for being picked up by the logistic company.",
+      "condition": ""
+    },
+    {
+      "id": "constr_07",
+      "template": "response",
+      "activity_a": "Select logistic company and place order",
+      "activity_b": "Prepare for picking up goods",
+      "source_text": "In these cases the secretary invites three logistic companies to make offers and she selects one of them. ... If everything is ready, the packaged goods are prepared for being picked up by the logistic company.",
+      "condition": "large amounts"
+    },
+    {
+      "id": "constr_08",
+      "template": "response",
+      "activity_a": "Write package label",
+      "activity_b": "Ship goods",
+      "source_text": "a package label is written by the secretary... If everything is ready, the packaged goods are prepared for being picked up by the logistic company.",
+      "condition": ""
+    },
+    {
+      "id": "constr_09",
+      "template": "response",
+      "activity_a": "Insure parcel",
+      "activity_b": "Ship goods",
+      "source_text": "a parcel insurance taken by the logistics department head if necessary. ... If everything is ready, the packaged goods are prepared for being picked up by the logistic company.",
+      "condition": "necessary"
+    },
+    {
+      "id": "constr_10",
+      "template": "response",
+      "activity_a": "Prepare for picking up goods",
+      "activity_b": "Ship goods",
+      "source_text": "If everything is ready, the packaged goods are prepared for being picked up by the logistic company.",
+      "condition": ""
+    },
+    {
+      "id": "constr_11",
+      "template": "existence",
+      "activity_a": "Clarify shipment method",
+      "activity_b": "",
+      "source_text": "If goods shall be shipped, the secretary clarifies who will do the shipping.",
+      "condition": ""
+    },
+    {
+      "id": "constr_12",
+      "template": "existence",
+      "activity_a": "Package goods",
+      "activity_b": "",
+      "source_text": "In the meantime the goods can be already packaged by the warehousemen.",
+      "condition": ""
+    },
+    {
+      "id": "constr_13",
+      "template": "existence",
+      "activity_a": "Prepare for picking up goods",
+      "activity_b": "",
+      "source_text": "If everything is ready, the packaged goods are prepared for being picked up by the logistic company.",
+      "condition": ""
+    },
+    {
+      "id": "constr_14",
+      "template": "choice",
+      "activity_a": "Get 3 offers from logistic companies",
+      "activity_b": "Select logistic company and place order",
+      "source_text": "In these cases the secretary invites three logistic companies to make offers and she selects one of them.",
+      "condition": "large amounts"
+    },
+    {
+      "id": "constr_15",
+      "template": "choice",
+      "activity_a": "Write package label",
+      "activity_b": "Insure parcel",
+      "source_text": "a package label is written by the secretary and a parcel insurance taken by the logistics department head if necessary.",
+      "condition": ""
+    }
+  ],
+  "verification": {
+    "is_conformant": false,
+    "total_constraints": 15,
+    "satisfied": 6,
+    "violated": 9,
+    "violations": [
+      {
+        "constraint_id": "constr_01",
+        "constraint_description": "response(Clarify shipment method, Get 3 offers from logistic companies)",
+        "trace": [
+          "Clarify shipment method",
+          "Write package label",
+          "Prepare for picking up goods",
+          "Package goods",
+          "Prepare for picking up goods"
+        ],
+        "explanation": "The process should ensure that offers from logistic companies are obtained after clarifying shipment methods. However, the model allows for the shipment method to be clarified without subsequently obtaining offers, which could lead to uncompetitive shipping costs."
+      },
+      {
+        "constraint_id": "constr_02",
+        "constraint_description": "response(Clarify shipment method, Select logistic company and place order)",
+        "trace": [
+          "Clarify shipment method",
+          "Write package label",
+          "Prepare for picking up goods",
+          "Package goods",
+          "Prepare for picking up goods"
+        ],
+        "explanation": "The process should ensure that a logistic company is selected and an order is placed after clarifying the shipment method. The current model allows clarification without this step, potentially leaving the shipment unbooked and delaying dispatch."
+      },
+      {
+        "constraint_id": "constr_03",
+        "constraint_description": "response(Clarify shipment method, Write package label)",
+        "trace": [
+          "Clarify shipment method",
+          "Insure parcel",
+          "Prepare for picking up goods",
+          "Package goods",
+          "Prepare for picking up goods"
+        ],
+        "explanation": "A package label should be written after clarifying the shipment method. The model permits clarifying the shipment method and then insuring the parcel instead, which means the package might not be labeled correctly for dispatch."
+      },
+      {
+        "constraint_id": "constr_04",
+        "constraint_description": "response(Clarify shipment method, Insure parcel)",
+        "trace": [
+          "Clarify shipment method",
+          "Write package label",
+          "Prepare for picking up goods",
+          "Package goods",
+          "Prepare for picking up goods"
+        ],
+        "explanation": "Parcel insurance should be taken after clarifying the shipment method. The model allows clarifying the shipment method and then writing a package label, which could result in uninsured goods being shipped."
+      },
+      {
+        "constraint_id": "constr_05",
+        "constraint_description": "precedence(Package goods, Prepare for picking up goods)",
+        "trace": [
+          "Clarify shipment method",
+          "Write package label",
+          "Prepare for picking up goods",
+          "Package goods",
+          "Prepare for picking up goods"
+        ],
+        "explanation": "Goods must be packaged before they are prepared for pickup. The model allows preparing goods for pickup before they are actually packaged, creating a risk of preparing empty boxes or incomplete shipments."
+      },
+      {
+        "constraint_id": "constr_08",
+        "constraint_description": "response(Write package label, Ship goods)",
+        "trace": [
+          "Clarify shipment method",
+          "Write package label",
+          "Prepare for picking up goods",
+          "Package goods",
+          "Prepare for picking up goods"
+        ],
+        "explanation": "The goods should be shipped after a package label is written. The model allows writing a label and then preparing the goods for pickup without shipping, which could lead to packages sitting indefinitely."
+      },
+      {
+        "constraint_id": "constr_09",
+        "constraint_description": "response(Insure parcel, Ship goods)",
+        "trace": [
+          "Clarify shipment method",
+          "Insure parcel",
+          "Prepare for picking up goods",
+          "Package goods",
+          "Prepare for picking up goods"
+        ],
+        "explanation": "The goods should be shipped after the parcel is insured. The model allows insuring the parcel and then preparing it for pickup without actually shipping, meaning the insurance might be in place for too long."
+      },
+      {
+        "constraint_id": "constr_10",
+        "constraint_description": "response(Prepare for picking up goods, Ship goods)",
+        "trace": [
+          "Clarify shipment method",
+          "Write package label",
+          "Prepare for picking up goods",
+          "Package goods",
+          "Prepare for picking up goods"
+        ],
+        "explanation": "The goods should be shipped after they are prepared for pickup. The model allows preparing goods for pickup and then packaging them without shipping, which could result in a backlog of prepared but undelivered items."
+      },
+      {
+        "constraint_id": "constr_15",
+        "constraint_description": "choice(Write package label, Insure parcel)",
+        "trace": [
+          "Clarify shipment method",
+          "Get 3 offers from logistic companies",
+          "Select logistic company and place order",
+          "Prepare for picking up goods",
+          "Package goods",
+          "Prepare for picking up goods"
+        ],
+        "explanation": "Either a package label must be written or parcel insurance must be taken. The model allows neither to happen after clarifying the shipment method, meaning the package might be sent without a label or insurance."
+      }
+    ]
+  }
+}

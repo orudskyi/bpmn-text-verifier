@@ -1,0 +1,50 @@
+[
+  {
+    "mutation": "ORIGINAL",
+    "description": "No mutation (original model)",
+    "detail": "",
+    "hybrid_violated": 7,
+    "baseline_violated": 6,
+    "expected_new_violations": 0
+  },
+  {
+    "mutation": "M1_delete_task",
+    "description": "M1: Deleted task 'Insure parcel' (id: Task_12j0pib)",
+    "detail": "Insure parcel",
+    "hybrid_violated": 7,
+    "baseline_violated": 6,
+    "expected_new_violations": 1
+  },
+  {
+    "mutation": "M2_add_task",
+    "description": "M2: Added spurious task 'Verify compliance documents' (id: Task_MUTATED_M2)",
+    "detail": "Verify compliance documents",
+    "hybrid_violated": 11,
+    "baseline_violated": 8,
+    "expected_new_violations": 1
+  },
+  {
+    "mutation": "M3_swap_tasks",
+    "description": "M3: Swapped task names 'Insure parcel' <-> 'Write package\nlabel'",
+    "detail": "'Insure parcel' <-> 'Write package\nlabel'",
+    "hybrid_violated": 9,
+    "baseline_violated": 7,
+    "expected_new_violations": 1
+  },
+  {
+    "mutation": "M4_remove_branch",
+    "description": "M4: Removed branch 'yes' from gateway ExclusiveGateway_1mpgzhg (target: Task_0e6hvnj)",
+    "detail": "branch 'yes' -> Task_0e6hvnj",
+    "hybrid_violated": 5,
+    "baseline_violated": 7,
+    "expected_new_violations": 1
+  },
+  {
+    "mutation": "M5_change_lane",
+    "description": "M5: Moved task 'Insure parcel' from Logistics to Secretary",
+    "detail": "'Insure parcel': Logistics -> Secretary",
+    "hybrid_violated": 5,
+    "baseline_violated": 6,
+    "expected_new_violations": 1
+  }
+]
