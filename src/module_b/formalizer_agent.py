@@ -41,6 +41,7 @@ from src.models import (
     Mapping,
     TextFragment,
 )
+from src.llm_retry import call_with_retry
 from src.rate_limiter import rate_limiter
 
 logger = logging.getLogger(__name__)
@@ -282,12 +283,14 @@ async def extract_constraints(
             )
             chain = _PROMPT | llm.with_structured_output(ConstraintList)
             await rate_limiter.wait()
-            result: ConstraintList = await chain.ainvoke(
+            result: ConstraintList = await call_with_retry(
+                chain.ainvoke,
                 {
                     "activity_names_list": activities_fmt,
                     "full_text": full_text,
                     "mappings_formatted": mappings_fmt,
-                }
+                },
+                initial_wait=35,
             )
             constraints = _validate_constraints(result.constraints, graph)
             logger.info(

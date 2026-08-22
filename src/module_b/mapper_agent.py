@@ -26,6 +26,7 @@ from pydantic import BaseModel
 
 from src.config import settings
 from src.models import BPMNGraph, Mapping, TextFragment
+from src.llm_retry import call_with_retry
 from src.rate_limiter import rate_limiter
 
 logger = logging.getLogger(__name__)
@@ -218,12 +219,14 @@ async def map_text_to_bpmn(
             )
             chain = _PROMPT | llm.with_structured_output(MappingList)
             await rate_limiter.wait()
-            result: MappingList = await chain.ainvoke(
+            result: MappingList = await call_with_retry(
+                chain.ainvoke,
                 {
                     "nodes_formatted": nodes_fmt,
                     "lanes_formatted": lanes_fmt,
                     "fragments_formatted": frags_fmt,
-                }
+                },
+                initial_wait=35,
             )
             mappings = _validate_mappings(result.mappings, graph)
             logger.info(

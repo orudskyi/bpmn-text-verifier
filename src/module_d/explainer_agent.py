@@ -35,6 +35,7 @@ from src.models import (
     VerificationResult,
     Violation,
 )
+from src.llm_retry import call_with_retry
 from src.rate_limiter import rate_limiter
 
 logger = logging.getLogger(__name__)
@@ -257,11 +258,13 @@ async def explain_violations(
             )
             chain = _PROMPT | llm.with_structured_output(ExplanationList)
             await rate_limiter.wait()
-            response: ExplanationList = await chain.ainvoke(
+            response: ExplanationList = await call_with_retry(
+                chain.ainvoke,
                 {
                     "process_name": graph.process_name,
                     "violations_formatted": violations_fmt,
-                }
+                },
+                initial_wait=35,
             )
 
             # Build a lookup: constraint_id → explanation text
