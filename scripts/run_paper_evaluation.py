@@ -22,7 +22,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from scripts.evaluate import evaluate_mappings, evaluate_constraints, Scores
-from scripts.mutate import run_mutations, print_comparison_table
+from scripts.mutate import run_mutations, print_comparison_table, generation_params_meta
 
 # ── Rate limiting ─────────────────────────────────────────────────────────────
 PAUSE_BETWEEN_PHASES = 25  # seconds between major phases
@@ -198,17 +198,22 @@ def print_table_ii(mutation_results: dict):
 # ── Estimated time ───────────────────────────────────────────────────────────
 
 
-def estimate_time(n_processes: int, run_baselines: bool) -> str:
-    # Per process: 1 hybrid original + 5 mutations hybrid + (optional) 6 baseline
-    # Each run: ~3 LLM calls for hybrid, ~1 for baseline
-    # With 20s pauses between runs
-    runs_per_process = 6  # original + 5 mutations
-    if run_baselines:
-        runs_per_process *= 2  # double for baseline
+def estimate_time(n_processes: int, run_baselines: bool, reextract_mutations: bool = False) -> str:
+    # Phase 1 (hybrid pipeline, always full extraction): 1 run/process, ~3 LLM calls.
+    hybrid_runs = 1 * n_processes
 
-    total_runs = runs_per_process * n_processes
-    # ~20s pause + ~10s for actual LLM call per run
-    total_seconds = total_runs * 30
+    # Phase 3 (mutations):
+    #   frozen (default): 1 extraction run/process (original) + 6 local,
+    #     LLM-free verifications (original + 5 mutants), no per-mutant pause.
+    #   reextract: 6 full hybrid runs/process (original + 5 mutants).
+    mutation_hybrid_runs = n_processes if not reextract_mutations else 6 * n_processes
+    # Baseline bypasses the rate limiter and needs its own pause every call,
+    # one per mutation-phase model (original + 5 mutants) regardless of arm.
+    baseline_runs = 6 * n_processes if run_baselines else 0
+
+    # ~4.3s/call from src/rate_limiter.py (14 RPM) for hybrid runs (~3 calls
+    # each), plus a 20s manual pause per baseline call (scripts/mutate.py).
+    total_seconds = hybrid_runs * 15 + mutation_hybrid_runs * 15 + baseline_runs * 30
     minutes = total_seconds // 60
     return f"~{minutes} minutes"
 
@@ -230,6 +235,13 @@ async def main():
         "--no-mutations", action="store_true",
         help="Skip mutation testing (much faster, only Tables III/IV).",
     )
+    parser.add_argument(
+        "--reextract-mutations", action="store_true",
+        help="Mutation testing: use the pre-T1.9 behaviour (re-run the full "
+             "hybrid pipeline, including a fresh Formalizer call, on every "
+             "mutant) instead of the default frozen-constraint-set arm. "
+             "Kept for comparison only — see scripts/mutate.py.",
+    )
     args = parser.parse_args()
 
     processes = ALL_PROCESSES
@@ -239,7 +251,7 @@ async def main():
     run_baselines = not args.no_baseline
     run_muts = not args.no_mutations
 
-    est = estimate_time(len(processes), run_baselines) if run_muts else "~2 minutes"
+    est = estimate_time(len(processes), run_baselines, args.reextract_mutations) if run_muts else "~2 minutes"
 
     print(f"\n{'#'*70}")
     print(f"  KhPIWeek 2026 — FULL EVALUATION SUITE")
@@ -294,7 +306,9 @@ async def main():
             out_dir = RESULTS_DIR / "mutations" / proc["key"]
             try:
                 results = await run_mutations(
-                    proc["bpmn"], proc["text"], str(out_dir), run_baselines=run_baselines
+                    proc["bpmn"], proc["text"], str(out_dir),
+                    run_baselines=run_baselines,
+                    freeze=not args.reextract_mutations,
                 )
                 mutation_results[proc["name"]] = results
             except Exception as e:
@@ -315,6 +329,8 @@ async def main():
 
     # ══ Save ══
     summary = {
+        "meta": generation_params_meta(),
+        "mutation_arm": "reextract" if args.reextract_mutations else "frozen",
         "evaluations": evaluations,
         "mutation_results": {k: v for k, v in mutation_results.items()},
     }
