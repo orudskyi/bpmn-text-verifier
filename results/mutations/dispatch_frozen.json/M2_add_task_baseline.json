@@ -1,0 +1,174 @@
+{
+  "process_name": "Dispatch of goods Computer Hardware Shop",
+  "bpmn_file": "results/mutations/dispatch_frozen.json/M2_add_task.bpmn",
+  "text_file": "data/dispatch/DispatchDescription.txt",
+  "graph_summary": {
+    "nodes": 16,
+    "edges": 18,
+    "lanes": 3,
+    "tasks": 8
+  },
+  "mappings": [
+    {
+      "fragment_id": "frag_01",
+      "fragment_text": "If goods shall be shipped, the secretary clarifies who will do the shipping",
+      "node_id": "Task_05ftug5",
+      "node_name": "Package goods",
+      "confidence": 0.5
+    },
+    {
+      "fragment_id": "frag_03",
+      "fragment_text": "In these cases the secretary invites three logistic companies to make offers and she selects one of them",
+      "node_id": "Task_0e6hvnj",
+      "node_name": "Get 3 offers from logistic companies",
+      "confidence": 0.5
+    },
+    {
+      "fragment_id": "frag_04",
+      "fragment_text": "In case of small amounts, normal post shipment is used",
+      "node_id": "Task_0vaxgaa",
+      "node_name": "Clarify shipment method",
+      "confidence": 0.5
+    },
+    {
+      "fragment_id": "frag_05",
+      "fragment_text": "a package label is written by the secretary and a parcel insurance taken by the logistics department head if necessary",
+      "node_id": "Task_12j0pib",
+      "node_name": "Insure parcel",
+      "confidence": 0.5
+    },
+    {
+      "fragment_id": "frag_06",
+      "fragment_text": "In the meantime the goods can be already packaged by the warehousemen",
+      "node_id": "Task_05ftug5",
+      "node_name": "Package goods",
+      "confidence": 0.5
+    },
+    {
+      "fragment_id": "frag_07",
+      "fragment_text": "If everything is ready, the packaged goods are prepared for being picked up by the logistic company",
+      "node_id": "Task_0e6hvnj",
+      "node_name": "Get 3 offers from logistic companies",
+      "confidence": 0.5
+    }
+  ],
+  "constraints": [],
+  "verification": {
+    "is_conformant": false,
+    "total_constraints": 8,
+    "satisfied": 0,
+    "violated": 8,
+    "violations": [
+      {
+        "constraint_id": "llm_inc_01",
+        "constraint_description": "[structural] The text mentions 'clarifies who will do the shipping' which is not explicitly represented as a separate task in the BPMN model. The closest task is 'Clarify shipment method', but the text implies a decision about the entity performing the shipment, not just the method.",
+        "trace": [],
+        "explanation": "The text mentions 'clarifies who will do the shipping' which is not explicitly represented as a separate task in the BPMN model. The closest task is 'Clarify shipment method', but the text implies a decision about the entity performing the shipment, not just the method."
+      },
+      {
+        "constraint_id": "llm_inc_02",
+        "constraint_description": "[behavioral] The text mentions 'special shipping will be necessary' for large amounts, which is linked to an 'ExclusiveGateway_1mpgzhg' with a 'yes' path leading to getting offers. However, the BPMN model does not explicitly define 'large amounts' or 'special shipping' as conditions or separate paths.",
+        "trace": [],
+        "explanation": "The text mentions 'special shipping will be necessary' for large amounts, which is linked to an 'ExclusiveGateway_1mpgzhg' with a 'yes' path leading to getting offers. However, the BPMN model does not explicitly define 'large amounts' or 'special shipping' as conditions or separate paths."
+      },
+      {
+        "constraint_id": "llm_inc_03",
+        "constraint_description": "[behavioral] The text states 'In case of small amounts, normal post shipment is used'. The BPMN model has a path from 'ExclusiveGateway_1mpgzhg' with a 'no' condition, but it does not explicitly state that this path corresponds to 'small amounts' or 'normal post shipment'.",
+        "trace": [],
+        "explanation": "The text states 'In case of small amounts, normal post shipment is used'. The BPMN model has a path from 'ExclusiveGateway_1mpgzhg' with a 'no' condition, but it does not explicitly state that this path corresponds to 'small amounts' or 'normal post shipment'."
+      },
+      {
+        "constraint_id": "llm_inc_04",
+        "constraint_description": "[resource] The text states 'a package label is written by the secretary and a parcel insurance taken by the logistics department head if necessary'. The BPMN model shows 'Write package label' (Task_0jsoxba) by the Secretary and 'Insure parcel' (Task_12j0pib) by Logistics. However, the text specifies 'logistics department head' which is a more specific role than the 'Logistics' lane in the BPMN.",
+        "trace": [],
+        "explanation": "The text states 'a package label is written by the secretary and a parcel insurance taken by the logistics department head if necessary'. The BPMN model shows 'Write package label' (Task_0jsoxba) by the Secretary and 'Insure parcel' (Task_12j0pib) by Logistics. However, the text specifies 'logistics department head' which is a more specific role than the 'Logistics' lane in the BPMN."
+      },
+      {
+        "constraint_id": "llm_inc_05",
+        "constraint_description": "[behavioral] The text states 'In the meantime the goods can be already packaged by the warehousemen'. The BPMN model shows 'Package goods' (Task_05ftug5) in the Warehouse lane. However, the text implies this can happen concurrently with other tasks, specifically mentioning 'in the meantime'. The BPMN model shows 'Package goods' being initiated after 'StartEvent_1' and a 'ParallelGateway_02fgrfq', which allows for concurrency, but the direct link to 'in the meantime' is not explicit.",
+        "trace": [],
+        "explanation": "The text states 'In the meantime the goods can be already packaged by the warehousemen'. The BPMN model shows 'Package goods' (Task_05ftug5) in the Warehouse lane. However, the text implies this can happen concurrently with other tasks, specifically mentioning 'in the meantime'. The BPMN model shows 'Package goods' being initiated after 'StartEvent_1' and a 'ParallelGateway_02fgrfq', which allows for concurrency, but the direct link to 'in the meantime' is not explicit."
+      },
+      {
+        "constraint_id": "llm_inc_06",
+        "constraint_description": "[structural] The text states 'If everything is ready, the packaged goods are prepared for being picked up by the logistic company'. The BPMN model has 'Prepare for picking up goods' (Task_0sl26uo) in the Warehouse lane, which is the last task before the end event. However, the text implies this is a trigger for the logistic company pickup, which is not explicitly modeled as a subsequent step or event.",
+        "trace": [],
+        "explanation": "The text states 'If everything is ready, the packaged goods are prepared for being picked up by the logistic company'. The BPMN model has 'Prepare for picking up goods' (Task_0sl26uo) in the Warehouse lane, which is the last task before the end event. However, the text implies this is a trigger for the logistic company pickup, which is not explicitly modeled as a subsequent step or event."
+      },
+      {
+        "constraint_id": "llm_inc_07",
+        "constraint_description": "[structural] The BPMN model includes a task 'Verify compliance documents' (Task_MUTATED_M2) which is not mentioned in the text description.",
+        "trace": [],
+        "explanation": "The BPMN model includes a task 'Verify compliance documents' (Task_MUTATED_M2) which is not mentioned in the text description."
+      },
+      {
+        "constraint_id": "llm_inc_08",
+        "constraint_description": "[behavioral] The text mentions 'special shipping will be necessary' and 'small amounts, normal post shipment is used' which are conditions for different shipping methods. The BPMN model uses gateways 'ExclusiveGateway_1mpgzhg' and 'InclusiveGateway_1dgb4sg' to handle different paths, but the exact conditions ('large amounts', 'small amounts', 'special shipping', 'normal post shipment') are not explicitly defined as labels on the sequence flows or associated with the gateways.",
+        "trace": [],
+        "explanation": "The text mentions 'special shipping will be necessary' and 'small amounts, normal post shipment is used' which are conditions for different shipping methods. The BPMN model uses gateways 'ExclusiveGateway_1mpgzhg' and 'InclusiveGateway_1dgb4sg' to handle different paths, but the exact conditions ('large amounts', 'small amounts', 'special shipping', 'normal post shipment') are not explicitly defined as labels on the sequence flows or associated with the gateways."
+      }
+    ]
+  },
+  "baseline_method": "pure_llm",
+  "llm_raw_output": {
+    "inconsistencies": [
+      {
+        "description": "The text mentions 'clarifies who will do the shipping' which is not explicitly represented as a separate task in the BPMN model. The closest task is 'Clarify shipment method', but the text implies a decision about the entity performing the shipment, not just the method.",
+        "text_fragment": "If goods shall be shipped, the secretary clarifies who will do the shipping",
+        "bpmn_element": "Task_0vaxgaa",
+        "severity": "medium",
+        "type": "structural"
+      },
+      {
+        "description": "The text mentions 'special shipping will be necessary' for large amounts, which is linked to an 'ExclusiveGateway_1mpgzhg' with a 'yes' path leading to getting offers. However, the BPMN model does not explicitly define 'large amounts' or 'special shipping' as conditions or separate paths.",
+        "text_fragment": "If you have large amounts, special shipping will be necessary",
+        "bpmn_element": "ExclusiveGateway_1mpgzhg",
+        "severity": "medium",
+        "type": "behavioral"
+      },
+      {
+        "description": "The text states 'In case of small amounts, normal post shipment is used'. The BPMN model has a path from 'ExclusiveGateway_1mpgzhg' with a 'no' condition, but it does not explicitly state that this path corresponds to 'small amounts' or 'normal post shipment'.",
+        "text_fragment": "In case of small amounts, normal post shipment is used",
+        "bpmn_element": "ExclusiveGateway_1mpgzhg",
+        "severity": "medium",
+        "type": "behavioral"
+      },
+      {
+        "description": "The text states 'a package label is written by the secretary and a parcel insurance taken by the logistics department head if necessary'. The BPMN model shows 'Write package label' (Task_0jsoxba) by the Secretary and 'Insure parcel' (Task_12j0pib) by Logistics. However, the text specifies 'logistics department head' which is a more specific role than the 'Logistics' lane in the BPMN.",
+        "text_fragment": "a parcel insurance taken by the logistics department head if necessary",
+        "bpmn_element": "Task_12j0pib",
+        "severity": "low",
+        "type": "resource"
+      },
+      {
+        "description": "The text states 'In the meantime the goods can be already packaged by the warehousemen'. The BPMN model shows 'Package goods' (Task_05ftug5) in the Warehouse lane. However, the text implies this can happen concurrently with other tasks, specifically mentioning 'in the meantime'. The BPMN model shows 'Package goods' being initiated after 'StartEvent_1' and a 'ParallelGateway_02fgrfq', which allows for concurrency, but the direct link to 'in the meantime' is not explicit.",
+        "text_fragment": "In the meantime the goods can be already packaged by the warehousemen",
+        "bpmn_element": "Task_05ftug5",
+        "severity": "low",
+        "type": "behavioral"
+      },
+      {
+        "description": "The text states 'If everything is ready, the packaged goods are prepared for being picked up by the logistic company'. The BPMN model has 'Prepare for picking up goods' (Task_0sl26uo) in the Warehouse lane, which is the last task before the end event. However, the text implies this is a trigger for the logistic company pickup, which is not explicitly modeled as a subsequent step or event.",
+        "text_fragment": "If everything is ready, the packaged goods are prepared for being picked up by the logistic company",
+        "bpmn_element": "Task_0sl26uo",
+        "severity": "medium",
+        "type": "structural"
+      },
+      {
+        "description": "The BPMN model includes a task 'Verify compliance documents' (Task_MUTATED_M2) which is not mentioned in the text description.",
+        "text_fragment": "Verify compliance documents",
+        "bpmn_element": "Task_MUTATED_M2",
+        "severity": "medium",
+        "type": "structural"
+      },
+      {
+        "description": "The text mentions 'special shipping will be necessary' and 'small amounts, normal post shipment is used' which are conditions for different shipping methods. The BPMN model uses gateways 'ExclusiveGateway_1mpgzhg' and 'InclusiveGateway_1dgb4sg' to handle different paths, but the exact conditions ('large amounts', 'small amounts', 'special shipping', 'normal post shipment') are not explicitly defined as labels on the sequence flows or associated with the gateways.",
+        "text_fragment": "If you have large amounts, special shipping will be necessary\nIn case of small amounts, normal post shipment is used",
+        "bpmn_element": "ExclusiveGateway_1mpgzhg",
+        "severity": "medium",
+        "type": "behavioral"
+      }
+    ],
+    "summary": "The BPMN model and the text description have several inconsistencies, primarily related to the explicit conditions and triggers for certain tasks, the exact roles mentioned, and the presence of a task in the model that is not described in the text. The text also implies concurrency and specific outcomes that are not perfectly mapped to the BPMN structure."
+  }
+}

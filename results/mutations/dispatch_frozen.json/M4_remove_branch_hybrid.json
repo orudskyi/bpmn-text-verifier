@@ -1,0 +1,178 @@
+{
+  "process_name": "Dispatch of goods Computer Hardware Shop",
+  "mode": "frozen",
+  "constraints": [
+    {
+      "id": "constr_01",
+      "template": "response",
+      "activity_a": "Clarify shipment method",
+      "activity_b": "Get 3 offers from logistic companies",
+      "source_text": "If goods shall be shipped, the secretary clarifies who will do the shipping. If you have large amounts, special shipping will be necessary. In these cases the secretary invites three logistic companies to make offers",
+      "condition": "if large amounts"
+    },
+    {
+      "id": "constr_02",
+      "template": "response",
+      "activity_a": "Clarify shipment method",
+      "activity_b": "Write package label",
+      "source_text": "If goods shall be shipped, the secretary clarifies who will do the shipping. ... a package label is written by the secretary",
+      "condition": "if small amounts"
+    },
+    {
+      "id": "constr_03",
+      "template": "response",
+      "activity_a": "Get 3 offers from logistic companies",
+      "activity_b": "Select logistic company and place order",
+      "source_text": "In these cases the secretary invites three logistic companies to make offers and she selects one of them.",
+      "condition": ""
+    },
+    {
+      "id": "constr_04",
+      "template": "response",
+      "activity_a": "Select logistic company and place order",
+      "activity_b": "Insure parcel",
+      "source_text": "a parcel insurance taken by the logistics department head if necessary",
+      "condition": "if necessary"
+    },
+    {
+      "id": "constr_05",
+      "template": "existence",
+      "activity_a": "Clarify shipment method",
+      "activity_b": "",
+      "source_text": "If goods shall be shipped, the secretary clarifies who will do the shipping.",
+      "condition": ""
+    },
+    {
+      "id": "constr_06",
+      "template": "existence",
+      "activity_a": "Write package label",
+      "activity_b": "",
+      "source_text": "a package label is written by the secretary",
+      "condition": ""
+    },
+    {
+      "id": "constr_07",
+      "template": "existence",
+      "activity_a": "Package goods",
+      "activity_b": "",
+      "source_text": "In the meantime the goods can be already packaged by the warehousemen.",
+      "condition": ""
+    },
+    {
+      "id": "constr_08",
+      "template": "existence",
+      "activity_a": "Prepare for picking up goods",
+      "activity_b": "",
+      "source_text": "If everything is ready, the packaged goods are prepared for being picked up by the logistic company.",
+      "condition": ""
+    },
+    {
+      "id": "constr_09",
+      "template": "precedence",
+      "activity_a": "Package goods",
+      "activity_b": "Prepare for picking up goods",
+      "source_text": "If everything is ready, the packaged goods are prepared for being picked up by the logistic company.",
+      "condition": ""
+    },
+    {
+      "id": "constr_10",
+      "template": "response",
+      "activity_a": "Clarify shipment method",
+      "activity_b": "Ship goods",
+      "source_text": "If goods shall be shipped, the secretary clarifies who will do the shipping.",
+      "condition": "if normal post shipment"
+    },
+    {
+      "id": "constr_11",
+      "template": "response",
+      "activity_a": "Select logistic company and place order",
+      "activity_b": "Ship goods",
+      "source_text": "she selects one of them.",
+      "condition": "if special shipping"
+    },
+    {
+      "id": "constr_12",
+      "template": "not_coexistence",
+      "activity_a": "Get 3 offers from logistic companies",
+      "activity_b": "Write package label",
+      "source_text": "In these cases the secretary invites three logistic companies to make offers and she selects one of them. ... a package label is written by the secretary",
+      "condition": "if large amounts"
+    },
+    {
+      "id": "constr_13",
+      "template": "not_coexistence",
+      "activity_a": "Select logistic company and place order",
+      "activity_b": "Write package label",
+      "source_text": "she selects one of them. ... a package label is written by the secretary",
+      "condition": "if large amounts"
+    }
+  ],
+  "verification": {
+    "is_conformant": false,
+    "total_constraints": 13,
+    "satisfied": 8,
+    "violated": 5,
+    "violations": [
+      {
+        "constraint_id": "constr_01",
+        "constraint_description": "response(Clarify shipment method, Get 3 offers from logistic companies)",
+        "trace": [
+          "Clarify shipment method",
+          "Insure parcel",
+          "Prepare for picking up goods",
+          "Package goods",
+          "Prepare for picking up goods"
+        ],
+        "explanation": ""
+      },
+      {
+        "constraint_id": "constr_02",
+        "constraint_description": "response(Clarify shipment method, Write package label)",
+        "trace": [
+          "Clarify shipment method",
+          "Insure parcel",
+          "Prepare for picking up goods",
+          "Package goods",
+          "Prepare for picking up goods"
+        ],
+        "explanation": ""
+      },
+      {
+        "constraint_id": "constr_06",
+        "constraint_description": "existence(Write package label)",
+        "trace": [
+          "Clarify shipment method",
+          "Insure parcel",
+          "Prepare for picking up goods",
+          "Package goods",
+          "Prepare for picking up goods"
+        ],
+        "explanation": ""
+      },
+      {
+        "constraint_id": "constr_09",
+        "constraint_description": "precedence(Package goods, Prepare for picking up goods)",
+        "trace": [
+          "Clarify shipment method",
+          "Insure parcel",
+          "Prepare for picking up goods",
+          "Package goods",
+          "Prepare for picking up goods"
+        ],
+        "explanation": ""
+      },
+      {
+        "constraint_id": "constr_10",
+        "constraint_description": "response(Clarify shipment method, Ship goods)",
+        "trace": [
+          "Clarify shipment method",
+          "Insure parcel",
+          "Prepare for picking up goods",
+          "Package goods",
+          "Prepare for picking up goods"
+        ],
+        "explanation": ""
+      }
+    ]
+  }
+}

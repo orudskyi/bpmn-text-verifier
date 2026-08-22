@@ -1,0 +1,67 @@
+{
+  "meta": {
+    "model": "gemini-2.5-flash-lite",
+    "temperature_first_attempt": 0.0,
+    "temperature_retry_schedule": "0.1 * attempt_index for attempts after the first (identical in mapper_agent.py, formalizer_agent.py, explainer_agent.py)",
+    "llm_max_retries": 2,
+    "note": "Only model/temperature/google_api_key are passed to ChatGoogleGenerativeAI(...); top_p, top_k and max_output_tokens are not set anywhere in src/ and take langchain-google-genai / Gemini API provider defaults. Output is constrained via .with_structured_output(...), not via a generation parameter.",
+    "recorded_at": "2026-08-20T18:36:50.959650+00:00"
+  },
+  "arm": "frozen",
+  "results": [
+    {
+      "mutation": "ORIGINAL",
+      "description": "No mutation (original model)",
+      "detail": "",
+      "mode": "frozen",
+      "hybrid_violated": 7,
+      "baseline_violated": 6,
+      "expected_new_violations": 0
+    },
+    {
+      "mutation": "M1_delete_task",
+      "description": "M1: Deleted task 'Insure parcel' (id: Task_12j0pib)",
+      "detail": "Insure parcel",
+      "mode": "frozen",
+      "hybrid_violated": 7,
+      "baseline_violated": 6,
+      "expected_new_violations": 1
+    },
+    {
+      "mutation": "M2_add_task",
+      "description": "M2: Added spurious task 'Verify compliance documents' (id: Task_MUTATED_M2)",
+      "detail": "Verify compliance documents",
+      "mode": "frozen",
+      "hybrid_violated": 7,
+      "baseline_violated": 8,
+      "expected_new_violations": 1
+    },
+    {
+      "mutation": "M3_swap_tasks",
+      "description": "M3: Swapped task names 'Insure parcel' <-> 'Write package\nlabel'",
+      "detail": "'Insure parcel' <-> 'Write package\nlabel'",
+      "mode": "frozen",
+      "hybrid_violated": 7,
+      "baseline_violated": 7,
+      "expected_new_violations": 1
+    },
+    {
+      "mutation": "M4_remove_branch",
+      "description": "M4: Removed branch 'yes' from gateway ExclusiveGateway_1mpgzhg (target: Task_0e6hvnj)",
+      "detail": "branch 'yes' -> Task_0e6hvnj",
+      "mode": "frozen",
+      "hybrid_violated": 5,
+      "baseline_violated": 7,
+      "expected_new_violations": 1
+    },
+    {
+      "mutation": "M5_change_lane",
+      "description": "M5: Moved task 'Insure parcel' from Logistics to Secretary",
+      "detail": "'Insure parcel': Logistics -> Secretary",
+      "mode": "frozen",
+      "hybrid_violated": 7,
+      "baseline_violated": 6,
+      "expected_new_violations": 1
+    }
+  ]
+}
