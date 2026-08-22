@@ -1,0 +1,14 @@
+{
+  "n_runs": 5,
+  "n_processes": 1,
+  "llm_calls_total_range": [
+    10,
+    15
+  ],
+  "wall_clock_floor_seconds_range": [
+    42.9,
+    64.3
+  ],
+  "note": "This is a floor from src/rate_limiter.py pacing alone (60/14s per call); it excludes actual Gemini response latency and any 429 backoff in src/llm_retry.py — real elapsed time will be higher.",
+  "cost": "Not computed. No token counts are recorded anywhere in src/ or scripts/ (confirmed by inspection; no token-accounting code exists). A dollar figure needs either per-call token instrumentation — out of scope for this task, it would touch src/ — or the current Gemini API price sheet applied manually to the call counts above."
+}

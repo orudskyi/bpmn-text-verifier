@@ -1,0 +1,153 @@
+{
+  "process": "Dispatch of Goods",
+  "process_key": "dispatch",
+  "n_runs": 5,
+  "dry_run": false,
+  "generation_params": {
+    "model": "gemini-2.5-flash-lite",
+    "temperature_first_attempt": 0.0,
+    "temperature_retry_schedule": "0.1 * attempt_index for attempts after the first (identical in mapper_agent.py, formalizer_agent.py, explainer_agent.py)",
+    "llm_max_retries": 2,
+    "note": "Only model/temperature/google_api_key are passed to ChatGoogleGenerativeAI(...); top_p, top_k and max_output_tokens are not set anywhere in src/ and take langchain-google-genai / Gemini API provider defaults. Output is constrained via .with_structured_output(...), not via a generation parameter.",
+    "recorded_at": "2026-08-20T14:33:47.727419+00:00"
+  },
+  "runs": [
+    {
+      "run_index": 0,
+      "duration_s": 12.55581374600024,
+      "report_path": "results/repeated_runs/dispatch/run_00/report.json",
+      "metrics_path": "results/repeated_runs/dispatch/run_00/metrics.json"
+    },
+    {
+      "run_index": 1,
+      "duration_s": 12.556924419000097,
+      "report_path": "results/repeated_runs/dispatch/run_01/report.json",
+      "metrics_path": "results/repeated_runs/dispatch/run_01/metrics.json"
+    },
+    {
+      "run_index": 2,
+      "duration_s": 13.44124166200072,
+      "report_path": "results/repeated_runs/dispatch/run_02/report.json",
+      "metrics_path": "results/repeated_runs/dispatch/run_02/metrics.json"
+    },
+    {
+      "run_index": 3,
+      "duration_s": 12.161296586999924,
+      "report_path": "results/repeated_runs/dispatch/run_03/report.json",
+      "metrics_path": "results/repeated_runs/dispatch/run_03/metrics.json"
+    },
+    {
+      "run_index": 4,
+      "duration_s": 13.202664458999607,
+      "report_path": "results/repeated_runs/dispatch/run_04/report.json",
+      "metrics_path": "results/repeated_runs/dispatch/run_04/metrics.json"
+    }
+  ],
+  "aggregate": {
+    "mapping_precision": {
+      "n": 5,
+      "values": [
+        0.8571428571428571,
+        0.8571428571428571,
+        0.8571428571428571,
+        0.8571428571428571,
+        0.8571428571428571
+      ],
+      "mean": 0.8571428571428571,
+      "median": 0.8571428571428571,
+      "stdev": 0.0,
+      "min": 0.8571428571428571,
+      "max": 0.8571428571428571
+    },
+    "mapping_recall": {
+      "n": 5,
+      "values": [
+        0.8571428571428571,
+        0.8571428571428571,
+        0.8571428571428571,
+        0.8571428571428571,
+        0.8571428571428571
+      ],
+      "mean": 0.8571428571428571,
+      "median": 0.8571428571428571,
+      "stdev": 0.0,
+      "min": 0.8571428571428571,
+      "max": 0.8571428571428571
+    },
+    "mapping_f1": {
+      "n": 5,
+      "values": [
+        0.8571428571428571,
+        0.8571428571428571,
+        0.8571428571428571,
+        0.8571428571428571,
+        0.8571428571428571
+      ],
+      "mean": 0.8571428571428571,
+      "median": 0.8571428571428571,
+      "stdev": 0.0,
+      "min": 0.8571428571428571,
+      "max": 0.8571428571428571
+    },
+    "constraint_precision": {
+      "n": 5,
+      "values": [
+        0.7692307692307693,
+        0.7692307692307693,
+        0.7692307692307693,
+        0.7692307692307693,
+        0.7692307692307693
+      ],
+      "mean": 0.7692307692307693,
+      "median": 0.7692307692307693,
+      "stdev": 0.0,
+      "min": 0.7692307692307693,
+      "max": 0.7692307692307693
+    },
+    "constraint_recall": {
+      "n": 5,
+      "values": [
+        0.7692307692307693,
+        0.7692307692307693,
+        0.7692307692307693,
+        0.7692307692307693,
+        0.7692307692307693
+      ],
+      "mean": 0.7692307692307693,
+      "median": 0.7692307692307693,
+      "stdev": 0.0,
+      "min": 0.7692307692307693,
+      "max": 0.7692307692307693
+    },
+    "constraint_f1": {
+      "n": 5,
+      "values": [
+        0.7692307692307693,
+        0.7692307692307693,
+        0.7692307692307693,
+        0.7692307692307693,
+        0.7692307692307693
+      ],
+      "mean": 0.7692307692307693,
+      "median": 0.7692307692307693,
+      "stdev": 0.0,
+      "min": 0.7692307692307693,
+      "max": 0.7692307692307693
+    },
+    "violations_unmutated": {
+      "n": 5,
+      "values": [
+        7,
+        7,
+        7,
+        7,
+        7
+      ],
+      "mean": 7,
+      "median": 7,
+      "stdev": 0.0,
+      "min": 7,
+      "max": 7
+    }
+  }
+}
